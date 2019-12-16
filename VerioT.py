@@ -361,7 +361,6 @@ modelFile.close()
 configFile.close()
 print "Model generated!"
 
-"""
 ###################################################################
 ################### Model Checker #################################
 ###################################################################
@@ -468,4 +467,3 @@ for key in counterexamplePaths:
 reportFile.close()
 
 print "Analyzing done!"
-"""
