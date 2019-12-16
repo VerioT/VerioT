@@ -1,0 +1,6 @@
+
+    // invalidate the token
+    // remove the TCLOUDP's token from PCLOUD's GCL
+    printf("deOAuth23_1 \n");
+    removeItemGCL(PCLOUD, TCLOUDP);
+    ACVOAuth23 = 2;

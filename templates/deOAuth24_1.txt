@@ -1,0 +1,7 @@
+
+    // invalidate the token
+    // remove the TPARTYV's token from VCLOUD's GCL and VUSER's GCL
+    printf("deOAuth24_1 \n");
+    removeItemGCL(VCLOUD, TPARTYV);
+    removeItemGCL(VUSER, TPARTYV);
+    ACVOAuth24 = 2;

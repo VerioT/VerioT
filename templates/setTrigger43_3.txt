@@ -1,0 +1,14 @@
+
+    // generate new credential 
+    // add to VCLOUD RCL, VUSER RCL and  TPARTYV GCL 
+    printf("setTrigger43_3 \n");
+    newCredential --;
+    addItemGCL(TPARTYV, VCLOUD, newCredential);
+    addItemGCL(TPARTYV, VUSER, newCredential);
+    addItemRCL(VCLOUD, newCredential);
+    addItemRCL(VUSER, newCredential);
+    
+    // run the hinden operation
+    setTrigger43_hiden();
+    
+    ACVsetTrigger43 = 1;

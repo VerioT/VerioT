@@ -1,0 +1,6 @@
+
+    // remove both PCLOUD's and PUSER's newCredential from TPARTYP GCL
+    printf("desetTrigger44_2 \n");
+    removeItemGCL(TPARTYP, PCLOUD);
+    removeItemGCL(TPARTYP, PUSER);
+    ACVsetTrigger44 = 2;

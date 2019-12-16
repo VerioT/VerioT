@@ -1,0 +1,5 @@
+
+    // remove PCLOUD's newCredential from TCLOUDP's GCL
+    printf("desetTrigger42_2 \n");
+    removeItemGCL(TCLOUDP, PCLOUD);
+    ACVsetTrigger42 = 2;

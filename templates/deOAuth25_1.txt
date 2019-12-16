@@ -1,0 +1,7 @@
+
+    // invalidate the token
+    // remove the TPARTYP's token from PCLOUD's GCL and PUSER's GCL
+    printf("deOAuth25_1 \n");
+    removeItemGCL(PCLOUD, TPARTYP);
+    removeItemGCL(PUSER, TPARTYP);
+    ACVOAuth25 = 2;

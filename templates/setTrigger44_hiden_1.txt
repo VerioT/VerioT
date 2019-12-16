@@ -1,0 +1,5 @@
+
+    // add IDTPARTYP to PCLOUD ACL and PUSER ACL
+    printf("setTrigger44_hiden_1 \n");
+    addItemACL(PCLOUD, IDTPARTYP);
+    addItemACL(PUSER, IDTPARTYP);

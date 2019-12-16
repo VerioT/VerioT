@@ -1,0 +1,8 @@
+
+    // generate new credential on behalf of 3rd-party, TCLOUDP 
+    // add to PCLOUD SCL and  TCLOUDP RCL 
+    printf("OAuth23_2 \n");
+    newCredential --;
+    addItemSCL(PCLOUD, newCredential);
+    addItemRCL(TCLOUDP, newCredential);
+    ACVOAuth23 = 1;

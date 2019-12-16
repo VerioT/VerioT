@@ -1,0 +1,8 @@
+
+    // generate new credential on behalf of resource owner 
+    // add to VUSER GCL and  TPARTYV RCL 
+    printf("OAuth24_2 \n");
+    newCredential --;
+    addItemGCL(VUSER, TPARTYV, newCredential);
+    addItemRCL(TPARTYV, newCredential);
+    ACVOAuth24 = 1;

@@ -1,0 +1,5 @@
+
+    // add IDVUSER to VCLOUD  ACL
+    printf("share31_1 \n");
+    addItemACL(VCLOUD, IDVUSER);
+    ACVshare31 = 1;

@@ -1,0 +1,4 @@
+
+    // add IDTPARTYV to VUSER ACL
+    printf("setTrigger43_hiden_2 \n");
+    addItemACL(VUSER, IDTPARTYV);

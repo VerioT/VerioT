@@ -1,0 +1,5 @@
+
+    // do nothing
+    printf("setTrigger42_hiden_2\n");
+    printf("do nothing \n");
+    skip;

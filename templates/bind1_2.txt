@@ -1,0 +1,5 @@
+
+    // add IDVCLOUD to DEVICE ACL and VCLOUD RCL
+    printf("bind1_2 \n");
+    addItemACL(DEVICE, IDVCLOUD);
+    ACVbind1 = 1;

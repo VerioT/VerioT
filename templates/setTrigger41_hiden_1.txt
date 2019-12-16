@@ -1,0 +1,4 @@
+
+    // add IDTCLOUDV to VCLOUD ACL
+    printf("setTrigger41_hiden_1 \n");
+    addItemACL(VCLOUD, IDTCLOUDV);

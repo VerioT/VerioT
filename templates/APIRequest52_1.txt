@@ -1,0 +1,5 @@
+
+    // add everything in TCLOUDP's SCL to PUSER's RCL
+    printf("APIRequest52_1 \n");
+    addSCLstoRCLs(TCLOUDP, PUSER);
+    ACVAPIRequest52 = 1;

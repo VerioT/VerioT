@@ -1,0 +1,12 @@
+
+    // generate new credential 
+    // add to PCLOUD RCL and  TCLOUDP SCL 
+    printf("setTrigger42_1 \n");
+    newCredential --;
+    addItemSCL(TCLOUDP, newCredential);
+    addItemRCL(PCLOUD, newCredential);
+    
+    // run the hinden operation
+    setTrigger42_hiden();
+    
+    ACVsetTrigger42 = 1;
