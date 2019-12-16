@@ -773,21 +773,21 @@ inline assertionunshare1() {
         ACVshare1 == 2 ->
         calreachabilityMatrix();
         //printfMatrix(2); 
-                
+ 
         if
             :: reachabilityMatrix[DELEGATEEUESER].order1[DEVICE1] == true ->
                 VOLFlagunshare1 = true;
             :: else ->
                 skip;
         fi;
-                
+  
         if
             :: reachabilityMatrix[DELEGATEEUESER].order1[DEVICE2] == true ->
                 VOLFlagunshare1 = true;
             :: else ->
-                 skip;
+                skip;
         fi;
-                
+   
         assert(VOLFlagunshare1 == false);
     }
 }
