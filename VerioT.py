@@ -42,9 +42,9 @@ MAXCREDENTIALNUM = 2 * MAXENITYNUM
 modelFile.write("#define MAXENITYNUM " + str(MAXENITYNUM) + "\n")
 
 for i in range(0, MAXENITYNUM):
-    deviceName = configFile.readline().split()[0]
-    EntityList.append(deviceName)
-    EntityIDList.append("ID" + deviceName)
+    entityName = configFile.readline().split()[0]
+    EntityList.append(entityName)
+    EntityIDList.append("ID" + entityName)
 
 for i in range(0, MAXENITYNUM):
     modelFile.write("#define " + EntityList[i] + " " + str(i) + "\n")
