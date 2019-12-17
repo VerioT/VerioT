@@ -509,7 +509,10 @@ for key in counterexamplePaths:
         reportFile.write(str(number) + ":")
         reportFile.write(item + "\n")
         number = number + 1
-
+    
+    if number == 1:
+        reportFile.write("no flaw with " + key[7:] + "\n")
+    
 reportFile.close()
 
 print "Analyzing done!"
