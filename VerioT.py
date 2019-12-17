@@ -8,7 +8,7 @@ def getAssertionNameFromLine(line, assertions):
         if item in line:
             return item
     return ""
-    
+
 # Spin's default number is 9999
 # if max depth reached error, increase it
 depth = "9999" 
@@ -20,7 +20,7 @@ depth = "9999"
 print "Generating model..."
 
 # create file for the generated model
-modelFileName = "_0generatedModel.pml"
+modelFileName = "_generatedModel.pml"
 if os.path.exists(modelFileName):
     os.remove(modelFileName)
 modelFile = open(modelFileName,"a")
@@ -39,7 +39,7 @@ configLine = configFile.readline()
 MAXENITYNUM = int(configLine.split()[1])
 MAXCREDENTIALNUM = 2 * MAXENITYNUM
 
-modelFile.write("//#define MAXENITYNUM " + str(MAXENITYNUM) + "\n")
+modelFile.write("#define MAXENITYNUM " + str(MAXENITYNUM) + "\n")
 
 for i in range(0, MAXENITYNUM):
     deviceName = configFile.readline().split()[0]
@@ -55,7 +55,7 @@ for i in range(0, MAXENITYNUM):
     modelFile.write("#define " + EntityIDList[i] + " " + str(i+1) + "\n")
 
 modelFile.write("\n")
-modelFile.write("//#define MAXCREDENTIALNUM " + str(MAXCREDENTIALNUM) + "\n")
+modelFile.write("#define MAXCREDENTIALNUM " + str(MAXCREDENTIALNUM) + "\n")
 
 modelFile.write("\n")
 
@@ -113,7 +113,10 @@ for i in range(0, deleOperationNum):
     deleOperationList[keydeleOperation].append(configLine[0])
     deleOperationList[keydeleOperation].append(configLine[1])
     deleOperationList[keydeleOperation].append(configLine[2])
-    deleOperationList[keydeleOperation].append(configLine[3])
+    templateIndexes = []
+    for item in configLine[3:]:
+        templateIndexes.append(item)
+    deleOperationList[keydeleOperation].append(templateIndexes)
     keydeleOperation = keydeleOperation + 1
 
 sorted(deleOperationList.keys())
@@ -133,7 +136,10 @@ for i in range(0, otherOperationNum):
     otherOperationList[keyotherOperation].append(configLine[0])
     otherOperationList[keyotherOperation].append(configLine[1])
     otherOperationList[keyotherOperation].append(configLine[2])
-    otherOperationList[keyotherOperation].append(configLine[3])
+    templateIndexes = []
+    for item in configLine[3:]:
+        templateIndexes.append(item)
+    otherOperationList[keyotherOperation].append(templateIndexes)
     keyotherOperation = keyotherOperation + 1
     
 sorted(otherOperationList.keys())
@@ -156,26 +162,66 @@ block1File = open(block1FileName, "r")
 
 for line in block1File:
     modelFile.write(line)
-    
+
+modelFile.write("\n")
 block1File.close()
 
 modelFile.write("\n")
+
+actions = []
 
 # based on templates to create the operations, e.g., bind1, unbind2, etc.
 for key in deleOperationList:
     modelFile.write("inline " + deleOperationList[key][0] + "(){\n")
     modelFile.write("\n")
-    modelFile.write("something to do with the templates and " + deleOperationList[key][1] + " "+ deleOperationList[key][2] + " "+ deleOperationList[key][3] + " ")
-    modelFile.write("\n")
+    modelFile.write("    atomic {\n")
+    
+    delegatorActor = deleOperationList[key][1]
+    delegateeActor = deleOperationList[key][2]
+
+    
+    for indexItem in deleOperationList[key][3]:
+        actions.append(deleOperationList[key][0] + "_" + indexItem)
+        
+        templateFileName = "./templates/" + deleOperationList[key][0][:len(deleOperationList[key][0])-1] + "_" + indexItem + ".pml"
+        templateFile = open(templateFileName,"r")
+        
+        for line in templateFile:
+            line = line.replace("DELEGATOR_RP", delegatorActor)
+            line = line.replace("DELEGATEE_RP", delegateeActor)
+            if (key % 2 == 0 and "ACV" in line):
+                line = line.replace("OPERATION_RP", deleOperationList[key][0][2:])
+            else:
+                line = line.replace("OPERATION_RP", deleOperationList[key][0])
+            
+            modelFile.write(line)
+        
+    if (key % 2 == 0):
+        modelFile.write("        assertion" + deleOperationList[key][0] + "();\n")
+    modelFile.write("    }\n")
     modelFile.write("}\n")
     modelFile.write("\n")
+    
+    
 
 
 for key in otherOperationList:
     modelFile.write("inline " + otherOperationList[key][0] + "(){\n")
     modelFile.write("\n")
-    modelFile.write("something to do with the templates and " + otherOperationList[key][1] + " "+ otherOperationList[key][2] + " "+ otherOperationList[key][3] + " ")
-    modelFile.write("\n")
+    modelFile.write("    atomic {\n")
+    
+    for indexItem in otherOperationList[key][3]:
+        actions.append(otherOperationList[key][0] + "_" + indexItem)
+        
+        templateFileName = "./templates/" + otherOperationList[key][0] + "_" + indexItem + ".pml"
+        templateFile = open(templateFileName,"r")
+        
+        for line in templateFile:
+            modelFile.write(line)
+        
+        templateFile.close()
+
+    modelFile.write("    }\n")
     modelFile.write("}\n")
 
 configLine = configFile.readline()
@@ -209,8 +255,12 @@ sorted(assertionList.keys())
 """
 print assertionList
 """
+assertions = []
+counterexamplePaths = {}
 
 for key in assertionList:
+    assertions.append("VOLFlag" + assertionList[key][0])
+    counterexamplePaths["VOLFlag" + assertionList[key][0]] = []
     modelFile.write("\ninline assertion" + assertionList[key][0] + "() {\n")
     modelFile.write("    atomic {\n")
     modelFile.write("        bool VOLFlag" + assertionList[key][0] + " = false;\n")
@@ -361,6 +411,7 @@ modelFile.close()
 configFile.close()
 print "Model generated!"
 
+
 ###################################################################
 ################### Model Checker #################################
 ###################################################################
@@ -407,11 +458,6 @@ print "Readable counterexamples done!"
 ################### Analyzer ######################################
 ###################################################################
 print "\nAnalyzing counterexamples..."
-
-actions = ['bind1_1', 'unbind1_4', 'bind2_1', 'unbind2_4', 'OAuth1_1', 'unOAuth1_1', 'share1_1', 'share1_2', 'unshare1_1', 'APIRequest1_1']
-assertions = ['VOLFlagunbind1', 'VOLFlagunbind2', 'VOLFlagunOAuth1', 'VOLFlagunshare1']
-counterexamplePaths = {'VOLFlagunbind1': [], 'VOLFlagunbind2': [], 'VOLFlagunOAuth1': [], 'VOLFlagunshare1': []}
-
 
 inNumber = 1
 for readableFileName in range(1,errorNumber):
