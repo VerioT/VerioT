@@ -1,6 +1,0 @@
-
-    // remove both VCLOUD's and VUSER's newCredential from TPARTYV GCL
-    printf("desetTrigger43_2 \n");
-    removeItemGCL(TPARTYV, VCLOUD);
-    removeItemGCL(TPARTYV, VUSER);
-    ACVsetTrigger43 = 2;

@@ -1,4 +1,0 @@
-
-    // this action is not supported 
-    printf("deOAuth24_0 \n");
-    ACVOAuth24 = -1;

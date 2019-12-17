@@ -1,5 +1,0 @@
-
-    // remove PUSER's newCredential from PCLOUD's GCL 
-    printf("deshare32_3 \n");
-    removeItemGCL(PCLOUD, PUSER);
-    ACVshare32 = 2;

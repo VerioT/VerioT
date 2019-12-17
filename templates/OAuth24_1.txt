@@ -1,9 +1,0 @@
-
-    // generate new credential on behalf of resource owner 
-    // add to VCLOUD GCL, VUSER GCL and  TPARTYV RCL 
-    printf("OAuth24_1 \n");
-    newCredential --;
-    addItemGCL(VCLOUD, TPARTYV, newCredential);
-    addItemGCL(VUSER, TPARTYV, newCredential);
-    addItemRCL(TPARTYV, newCredential);
-    ACVOAuth24 = 1;

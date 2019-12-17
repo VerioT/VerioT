@@ -1,8 +1,0 @@
-
-    // generate newCredential, add to VUSER RCL, VCLOUD RCL, DEVICE GCL
-    printf("APIRequest51_1 \n");
-    newCredential --;
-    addItemRCL(VUSER, newCredential);
-    addItemRCL(VCLOUD, newCredential);
-    addItemGCL(DEVICE, VUSER, newCredential);
-    ACVAPIRequest51 = 1;

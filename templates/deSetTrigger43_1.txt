@@ -1,7 +1,0 @@
-
-    // do nothing
-    printf("desetTrigger43_1 \n");
-    printf("do nothing \n");
-    ACVsetTrigger43 = 2;
-    skip;
-

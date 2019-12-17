@@ -1,4 +1,0 @@
-
-    // add IDTPARTYP to PUSER ACL
-    printf("setTrigger44_hiden_2 \n");
-    addItemACL(PUSER, IDTPARTYP);

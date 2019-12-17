@@ -1,7 +1,0 @@
-
-    // invalidate the token
-    // remove the TCLOUDV's token from VCLOUD's GCL
-    printf("deOAuth22_1 \n");
-    removeItemGCL(VCLOUD, TCLOUDV);
-    ACVOAuth22 = 2;
-

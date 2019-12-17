@@ -1,6 +1,0 @@
-
-    // invalidate the token
-    // remove the PCLOUD's token from VCLOUD's GCL
-    printf("deOAuth21_1 \n");
-    removeItemGCL(VCLOUD, PCLOUD);
-    ACVOAuth21 = 2;

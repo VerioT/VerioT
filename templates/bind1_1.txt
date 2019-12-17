@@ -1,7 +1,0 @@
-
-    // share IDDEVICE with VCLOUD
-    // add IDDEVICE to DEVICE SCL and VCLOUD RCL
-    printf("bind1_1 \n");
-    addItemSCL(DEVICE, IDDEVICE);
-    addItemRCL(VCLOUD, IDDEVICE);
-    ACVbind1 = 1;

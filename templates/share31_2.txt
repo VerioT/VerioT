@@ -1,5 +1,0 @@
-
-    // add everything in VCLOUD RCL to VUSER RCL
-    printf("share31_2 \n");
-    addRCLstoRCLs(VCLOUD, VUSER);
-    ACVshare31 = 1;

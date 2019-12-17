@@ -1,4 +1,0 @@
-
-    // this action is not supported 
-    printf("OAuth25_0 \n");
-    ACVOAuth25 = -1;

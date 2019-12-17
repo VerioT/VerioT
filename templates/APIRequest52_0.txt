@@ -1,4 +1,0 @@
-
-    // this action is not supported 
-    printf("APIRequest52_0 \n");
-    ACVAPIRequest52 = -1;

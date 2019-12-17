@@ -1,8 +1,0 @@
-
-    // generate new credential on behalf of resource owner 
-    // add to PCLOUD GCL and  TCLOUDP RCL 
-    printf("OAuth23_1 \n");
-    newCredential --;
-    addItemGCL(PCLOUD, TCLOUDP, newCredential);
-    addItemRCL(TCLOUDP, newCredential);
-    ACVOAuth23 = 1;

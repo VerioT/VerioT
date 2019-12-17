@@ -1,5 +1,0 @@
-
-    // remove IDVCLOUD from DEVICE ACL
-    printf("debind1_2 \n");
-    removeItemACL(DEVICE, IDVCLOUD);
-    ACVbind1 = 2;

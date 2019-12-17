@@ -1,5 +1,0 @@
-
-    // remove  PUSER's newCredential from TPARTYP GCL
-    printf("desetTrigger44_3 \n");
-    removeItemGCL(TPARTYP, PUSER);
-    ACVsetTrigger44 = 2;

@@ -1,6 +1,0 @@
-
-    // do nothing 
-    printf("deOAuth21_2 \n");
-    printf("do nothing \n");
-    ACVOAuth21 = 2;
-    skip;

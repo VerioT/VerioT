@@ -1,5 +1,0 @@
-
-    // add IDTPARTYV to VCLOUD ACL and VUSER ACL
-    printf("setTrigger43_hiden_1 \n");
-    addItemACL(VCLOUD, IDTPARTYV);
-    addItemACL(VUSER, IDTPARTYV);

@@ -1,6 +1,0 @@
-
-    // invalidate the token
-    // remove the TPARTYV's token from VUSER's GCL 
-    printf("deOAuth24_3 \n");
-    removeItemGCL(VUSER, TPARTYV);
-    ACVOAuth24 = 2;

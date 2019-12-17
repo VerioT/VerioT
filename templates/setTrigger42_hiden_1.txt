@@ -1,4 +1,0 @@
-
-    // add IDTCLOUDP to PCLOUD ACL
-    printf("setTrigger42_hiden_1\n");
-    addItemACL(PCLOUD, IDTCLOUDP);

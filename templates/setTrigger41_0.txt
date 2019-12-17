@@ -1,4 +1,0 @@
-
-    // this action is not supported 
-    printf("setTrigger41_0 \n");
-    ACVsetTrigger41 = -1;

@@ -1,3 +1,0 @@
-
-    // this action is not supported 
-    printf("setTrigger41_hiden_0 \n");

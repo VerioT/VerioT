@@ -1,5 +1,0 @@
-
-    // remove newCredential of VUSER from VCLOUD GCL
-    printf("deshare31_3 \n");
-    removeItemGCL(VCLOUD, VUSER);
-    ACVshare31 = 2;

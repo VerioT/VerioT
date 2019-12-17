@@ -1,5 +1,0 @@
-
-    // remove IDVUSER from VCLOUD ACL
-    printf("deshare31_1 \n");
-    removeItemACL(VCLOUD, IDVUSER);
-    ACVshare31 = 2;

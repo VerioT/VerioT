@@ -1,8 +1,0 @@
-
-    // generate new credential on behalf of resource owner 
-    // add to VCLOUD GCL and  PCLOUD RCL 
-    printf("OAuth21_1 \n");
-    newCredential --;
-    addItemGCL(VCLOUD, PCLOUD, newCredential);
-    addItemRCL(PCLOUD, newCredential);
-    ACVOAuth21 = 1;

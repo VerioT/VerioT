@@ -1,8 +1,0 @@
-
-    // generate new credential on behalf of resource owner 
-    // add to PUSER GCL and  TPARTYP RCL 
-    printf("OAuth25_1 \n");
-    newCredential --;
-    addItemGCL(PUSER, TPARTYP, newCredential);
-    addItemRCL(TPARTYP, newCredential);
-    ACVOAuth25 = 1;
