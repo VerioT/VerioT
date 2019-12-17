@@ -39,5 +39,5 @@ share1 bind1 OAuth1
 unbind1 bind1
 unbind2 bind2
 unOAuth1 OAuth1
-unshare1 share1
+unshare1 share1 
 APIRequest1 bind1 OAuth1 share1
