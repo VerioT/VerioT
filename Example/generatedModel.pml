@@ -666,8 +666,8 @@ inline share1(){
         printf("share1_1 ");
         printf("DELEGATEECLOUD DELEGATEEUESER\n");
         addItemACL(DELEGATEECLOUD, IDDELEGATEEUESER);
-
         
+        ACVshare1 = 1;
         // add everything in DELEGATEECLOUD RCL to DELEGATEEUESER RCL
         printf("share1_2 ");
         printf("DELEGATEECLOUD DELEGATEEUESER\n");
@@ -699,6 +699,7 @@ inline APIRequest1(){
         addRCLstoRCLs(DELEGATORCLOUD, DELEGATEEUESER);
         
         ACVAPIRequest1 = 1;
+
     }
 }
 
@@ -735,7 +736,7 @@ inline assertionunbind2() {
             :: else ->
                 skip;
         fi;
-                
+
         assert(VOLFlagunbind2 == false);
     }
 }
@@ -754,14 +755,14 @@ inline assertionunOAuth1() {
             :: else ->
                 skip;
         fi;
-                
+
         if
             :: reachabilityMatrix[DELEGATEEUESER].order1[DEVICE2] == true ->
                 VOLFlagunOAuth1 = true;
             :: else ->
                 skip;
         fi;
-                
+
         assert(VOLFlagunOAuth1 == false);
     }
 }
@@ -773,21 +774,21 @@ inline assertionunshare1() {
         ACVshare1 == 2 ->
         calreachabilityMatrix();
         //printfMatrix(2); 
- 
+                
         if
             :: reachabilityMatrix[DELEGATEEUESER].order1[DEVICE1] == true ->
                 VOLFlagunshare1 = true;
             :: else ->
                 skip;
         fi;
-  
+
         if
             :: reachabilityMatrix[DELEGATEEUESER].order1[DEVICE2] == true ->
                 VOLFlagunshare1 = true;
             :: else ->
                 skip;
         fi;
-   
+
         assert(VOLFlagunshare1 == false);
     }
 }
@@ -799,27 +800,27 @@ init {
 proctype IoTDelegation(){
     atomic {
         printf("start delegation \n");
-        
-        if 
+
+        if
             :: ACVbind1 == 0 -> bind1();
             :: else -> skip;
         fi;
-        
-        if 
+
+        if
             :: ACVbind2 == 0 -> bind2();
             :: else -> skip;
         fi;
-        
-        if 
-            :: ACVOAuth1 == 0 && ACVbind1== 1 -> OAuth1();
+
+        if
+            :: ACVOAuth1 == 0 && ACVbind1 == 1 -> OAuth1();
             :: else -> skip;
         fi;
-        
-        if 
-            :: ACVshare1 == 0 && ACVbind1== 1 && ACVOAuth1 == 1 -> share1();
+
+        if
+            :: ACVshare1 == 0 && ACVbind1 == 1 && ACVOAuth1 == 1 -> share1();
             :: else -> skip;
         fi;
-        
+
         printf("delegation done \n");
     }
 
@@ -828,7 +829,7 @@ proctype IoTDelegation(){
         :: ACVbind2 == 1 -> unbind2();
         :: ACVOAuth1 == 1 -> unOAuth1();
         :: ACVshare1 == 1 -> unshare1();
-        :: ACVAPIRequest1 == 0 && ACVbind1== 1 && ACVOAuth1 == 1 && ACVshare1 == 1 -> APIRequest1();
+        :: ACVAPIRequest1 == 0 && ACVbind1 == 1 && ACVOAuth1 == 1 && ACVshare1 == 1 -> APIRequest1();
         :: else -> break;
     od;
 
