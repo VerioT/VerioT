@@ -1,0 +1,106 @@
+pan:1: assertion violated (VOLFlagunbind2==0) (at depth 1590)
+pan: wrote _generatedModel.pml1.trail
+pan:2: assertion violated (VOLFlagunOAuth1==0) (at depth 2285)
+pan: wrote _generatedModel.pml2.trail
+pan:3: assertion violated (VOLFlagunshare1==0) (at depth 2960)
+pan: wrote _generatedModel.pml3.trail
+pan: wrote _generatedModel.pml4.trail
+pan:5: assertion violated (VOLFlagunOAuth1==0) (at depth 2976)
+pan: wrote _generatedModel.pml5.trail
+pan: wrote _generatedModel.pml6.trail
+pan:7: assertion violated (VOLFlagunbind2==0) (at depth 2297)
+pan: wrote _generatedModel.pml7.trail
+pan:8: assertion violated (VOLFlagunshare1==0) (at depth 2972)
+pan: wrote _generatedModel.pml8.trail
+pan: wrote _generatedModel.pml9.trail
+pan:10: assertion violated (VOLFlagunbind2==0) (at depth 3007)
+pan: wrote _generatedModel.pml10.trail
+pan:11: assertion violated (VOLFlagunshare1==0) (at depth 1625)
+pan: wrote _generatedModel.pml11.trail
+pan:12: assertion violated (VOLFlagunbind2==0) (at depth 2334)
+pan: wrote _generatedModel.pml12.trail
+pan:13: assertion violated (VOLFlagunOAuth1==0) (at depth 3009)
+pan: wrote _generatedModel.pml13.trail
+pan: wrote _generatedModel.pml14.trail
+pan:15: assertion violated (VOLFlagunbind2==0) (at depth 3028)
+pan: wrote _generatedModel.pml15.trail
+pan: wrote _generatedModel.pml16.trail
+pan:17: assertion violated (VOLFlagunOAuth1==0) (at depth 2375)
+pan: wrote _generatedModel.pml17.trail
+pan:18: assertion violated (VOLFlagunshare1==0) (at depth 3050)
+pan: wrote _generatedModel.pml18.trail
+pan: wrote _generatedModel.pml19.trail
+pan:20: assertion violated (VOLFlagunOAuth1==0) (at depth 3066)
+pan: wrote _generatedModel.pml20.trail
+pan: wrote _generatedModel.pml21.trail
+pan:22: assertion violated (VOLFlagunshare1==0) (at depth 3062)
+pan: wrote _generatedModel.pml22.trail
+pan: wrote _generatedModel.pml23.trail
+pan: wrote _generatedModel.pml24.trail
+pan:25: assertion violated (VOLFlagunOAuth1==0) (at depth 3182)
+pan: wrote _generatedModel.pml25.trail
+pan: wrote _generatedModel.pml26.trail
+pan: wrote _generatedModel.pml27.trail
+pan:28: assertion violated (VOLFlagunbind2==0) (at depth 2294)
+pan: wrote _generatedModel.pml28.trail
+pan:29: assertion violated (VOLFlagunshare1==0) (at depth 2969)
+pan: wrote _generatedModel.pml29.trail
+pan: wrote _generatedModel.pml30.trail
+pan:31: assertion violated (VOLFlagunbind2==0) (at depth 3004)
+pan: wrote _generatedModel.pml31.trail
+pan: wrote _generatedModel.pml32.trail
+pan:33: assertion violated (VOLFlagunshare1==0) (at depth 2969)
+pan: wrote _generatedModel.pml33.trail
+pan: wrote _generatedModel.pml34.trail
+pan: wrote _generatedModel.pml35.trail
+pan:36: assertion violated (VOLFlagunbind2==0) (at depth 3029)
+pan: wrote _generatedModel.pml36.trail
+pan: wrote _generatedModel.pml37.trail
+pan:38: assertion violated (VOLFlagunshare1==0) (at depth 956)
+pan: wrote _generatedModel.pml38.trail
+pan:39: assertion violated (VOLFlagunbind2==0) (at depth 2440)
+pan: wrote _generatedModel.pml39.trail
+pan:40: assertion violated (VOLFlagunOAuth1==0) (at depth 3115)
+pan: wrote _generatedModel.pml40.trail
+pan: wrote _generatedModel.pml41.trail
+pan:42: assertion violated (VOLFlagunbind2==0) (at depth 3134)
+pan: wrote _generatedModel.pml42.trail
+pan: wrote _generatedModel.pml43.trail
+pan:44: assertion violated (VOLFlagunOAuth1==0) (at depth 3199)
+pan: wrote _generatedModel.pml44.trail
+pan: wrote _generatedModel.pml45.trail
+pan: wrote _generatedModel.pml46.trail
+pan:47: assertion violated (VOLFlagunbind2==0) (at depth 3138)
+pan: wrote _generatedModel.pml47.trail
+pan: wrote _generatedModel.pml48.trail
+
+(Spin Version 6.4.6 -- 2 December 2016)
+	+ Partial Order Reduction
+
+Bit statespace search for:
+	never claim         	- (not selected)
+	assertion violations	+
+	cycle checks       	- (disabled by -DSAFETY)
+	invalid end states	+
+
+State-vector 820 byte, depth reached 3220, errors: 48
+      157 states, stored
+       23 states, matched
+      180 transitions (= stored+matched)
+    46016 atomic steps
+
+hash factor: 854890 (best if > 100.)
+
+bits set per state: 3 (-k3)
+
+Stats on memory usage (in Megabytes):
+    0.126	equivalent memory usage for states (stored*(State-vector + overhead))
+   16.000	memory used for hash array (-w27)
+    0.076	memory used for bit stack
+    0.534	memory used for DFS stack (-m9999)
+   17.315	total actual memory usage
+
+
+
+pan: elapsed time 1.16 seconds
+pan: rate 135.34483 states/second

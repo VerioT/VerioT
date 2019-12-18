@@ -1,0 +1,50 @@
+VOLFlagunshare1
+1: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind1_1 unbind2_1 unsetTrigger1_1 unshare1_1
+2: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind1_1 unbind2_1 unshare1_1
+3: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind1_1 unsetTrigger1_1 unshare1_1
+4: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind1_1 unshare1_1
+5: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind2_1 unbind1_1 unsetTrigger1_1 unshare1_1
+6: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind2_1 unbind1_1 unshare1_1
+7: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind2_1 unsetTrigger1_1 unbind1_1 unshare1_1
+8: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind2_1 unsetTrigger1_1 unshare1_1
+9: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind2_1 unshare1_1
+10: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unsetTrigger1_1 unbind1_1 unbind2_1 unshare1_1
+11: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unsetTrigger1_1 unbind1_1 unshare1_1
+12: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unsetTrigger1_1 unshare1_1
+13: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unshare1_1
+VOLFlagunbind1
+no flaw with unbind1
+VOLFlagunsetTrigger1
+1: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind1_1 unbind2_1 unsetTrigger1_1
+2: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind1_1 unbind2_1 unshare1_1 unsetTrigger1_1
+3: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind1_1 unsetTrigger1_1
+4: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind1_1 unshare1_1 unbind2_1 unsetTrigger1_1
+5: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind1_1 unshare1_1 unsetTrigger1_1
+6: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind2_1 unbind1_1 unsetTrigger1_1
+7: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind2_1 unbind1_1 unshare1_1 unsetTrigger1_1
+8: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind2_1 unsetTrigger1_1
+9: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind2_1 unshare1_1 unbind1_1 unsetTrigger1_1
+10: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind2_1 unshare1_1 unsetTrigger1_1
+11: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unsetTrigger1_1
+12: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unshare1_1 unbind1_1 unbind2_1 unsetTrigger1_1
+13: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unshare1_1 unbind1_1 unsetTrigger1_1
+14: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unshare1_1 unbind2_1 unbind1_1 unsetTrigger1_1
+15: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unshare1_1 unbind2_1 unsetTrigger1_1
+16: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unshare1_1 unsetTrigger1_1
+VOLFlagunbind2
+1: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind1_1 unbind2_1
+2: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind1_1 unsetTrigger1_1 unbind2_1
+3: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind1_1 unsetTrigger1_1 unshare1_1 unbind2_1
+4: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind1_1 unshare1_1 unbind2_1
+5: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind1_1 unshare1_1 unsetTrigger1_1 unbind2_1
+6: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind2_1
+7: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unsetTrigger1_1 unbind1_1 unbind2_1
+8: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unsetTrigger1_1 unbind1_1 unshare1_1 unbind2_1
+9: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unsetTrigger1_1 unbind2_1
+10: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unsetTrigger1_1 unshare1_1 unbind1_1 unbind2_1
+11: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unsetTrigger1_1 unshare1_1 unbind2_1
+12: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unshare1_1 unbind1_1 unbind2_1
+13: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unshare1_1 unbind1_1 unsetTrigger1_1 unbind2_1
+14: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unshare1_1 unbind2_1
+15: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unshare1_1 unsetTrigger1_1 unbind1_1 unbind2_1
+16: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unshare1_1 unsetTrigger1_1 unbind2_1
