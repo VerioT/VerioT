@@ -1,0 +1,43 @@
+actors 5
+AugustLock
+SmartThingsSwitch
+IFTTTCloud
+SmartThingsCloud
+SmartThingsUser
+
+delegation operations 8 
+bind1 AugustLock IFTTTCloud 1
+unbind1 AugustLock IFTTTCloud 4
+bind2 SmartThingsSwitch SmartThingsCloud 1
+unbind2 SmartThingsSwitch SmartThingsCloud 4
+setTrigger1 IFTTTCloud SmartThingsCloud 1
+unsetTrigger1 IFTTTCloud SmartThingsCloud 1
+share1 SmartThingsCloud SmartThingsUser 1
+unshare1 SmartThingsCloud SmartThingsUser 1
+other operations 1 
+APIRequest1 SmartThingsUser SmartThingsCloud 2
+
+assertions 4 
+unbind1
+SmartThingsUser
+AugustLock
+unbind2
+SmartThingsUser
+SmartThingsSwitch
+unsetTrigger1
+SmartThingsUser
+AugustLock SmartThingsSwitch
+unshare1
+SmartThingsUser
+AugustLock SmartThingsSwitch
+
+operation dependency 9 
+bind1 NULL
+bind2 NULL
+setTrigger1 bind1 bind2
+share1 bind1 bind2 setTrigger1
+unbind1 bind1
+unbind2 bind2
+unsetTrigger1 setTrigger1
+unshare1 share1
+APIRequest1 bind1 bind2 setTrigger1 share1
