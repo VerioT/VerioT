@@ -7,4 +7,6 @@
         addItemSCL(DELEGATOR_RP, newCredential);
         addItemRCL(DELEGATEE_RP, newCredential);
         
+        setTriggerHidden_1()
+        
         ACVOPERATION_RP = 1;
