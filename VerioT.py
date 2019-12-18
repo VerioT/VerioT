@@ -105,6 +105,8 @@ deleOperationList = {}
 
 keydeleOperation = 1
 
+setTriggerHiddenList = []
+
 for i in range(0, deleOperationNum):
     configLine = configFile.readline().split()
     # odd number are delegation operations
@@ -117,6 +119,11 @@ for i in range(0, deleOperationNum):
     for item in configLine[3:]:
         templateIndexes.append(item)
     deleOperationList[keydeleOperation].append(templateIndexes)
+    
+    if configLine[0][:10] == "setTrigger":
+        for item in configLine[3:]:
+            setTriggerHiddenList.append("./templates/setTriggerHidden_" + item + ".pml")
+    
     keydeleOperation = keydeleOperation + 1
 
 sorted(deleOperationList.keys())
@@ -201,9 +208,14 @@ for key in deleOperationList:
     modelFile.write("    }\n")
     modelFile.write("}\n")
     modelFile.write("\n")
-    
-    
 
+for item in setTriggerHiddenList:
+    setTriggerFile = open(item, "r")
+    
+    for line in setTriggerFile:
+        line = line.replace("DELEGATOR_RP", delegatorActor)
+        line = line.replace("DELEGATEE_RP", delegateeActor)
+        modelFile.write(line)
 
 for key in otherOperationList:
     modelFile.write("inline " + otherOperationList[key][0] + "(){\n")
@@ -223,6 +235,7 @@ for key in otherOperationList:
 
     modelFile.write("    }\n")
     modelFile.write("}\n")
+
 
 configLine = configFile.readline()
 configLine = configFile.readline()
