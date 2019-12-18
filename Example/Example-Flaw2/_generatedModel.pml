@@ -656,6 +656,8 @@ inline setTrigger1(){
         addItemSCL(IFTTTCloud, newCredential);
         addItemRCL(SmartThingsCloud, newCredential);
         
+        setTriggerHidden_1()
+        
         ACVsetTrigger1 = 1;
     }
 }
@@ -698,6 +700,26 @@ inline unshare1(){
     }
 }
 
+
+inline setTriggerHidden_1(){
+    atomic{
+        // the SmartThingsCloud gets read access to the devices in the SmartThingsUser
+        // add the IDs of devices in SmartThingsUser ( 1 or 2 in RCL) to SmartThingsCloud RCL
+        bool deviceDelegatedtoSmartThingsUserFlag = false;
+        isIteminArray(1, RCLs[SmartThingsUser], deviceDelegatedtoSmartThingsUserFlag);
+        if
+            :: deviceDelegatedtoSmartThingsUserFlag == true -> addItemRCL(SmartThingsCloud, 1)
+            :: else -> skip;
+        fi;
+        
+        deviceDelegatedtoSmartThingsUserFlag = false;
+        isIteminArray(2, RCLs[SmartThingsUser], deviceDelegatedtoSmartThingsUserFlag);
+        if
+            :: deviceDelegatedtoSmartThingsUserFlag == true -> addItemRCL(SmartThingsCloud, 2)
+            :: else -> skip;
+        fi;
+    }
+}
 inline APIRequest1(){
 
     atomic {
