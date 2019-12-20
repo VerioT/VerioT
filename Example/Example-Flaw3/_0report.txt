@@ -1,187 +1,230 @@
 VOLFlagunshare1
-1: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unOAuth1_1 unshare1_1
+1: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unshare1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+	SMARTTHINGSUSER -> LIFXCLOUD -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-2: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 unbind1_1 unshare1_1
+	SMARTTHINGSUSER -> LIFXCLOUD -> LIFXHIDDENBULB
+2: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 APIRequest1_4 unbind1_1 unshare1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
-	SMARTTHINGSUSER -> LIFXHIDDENBULB
 3: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unshare1_1
+	SMARTTHINGSUSER -> LIFXCLOUD -> LIFXDELEGATEDBULB
+	SMARTTHINGSUSER -> LIFXCLOUD -> LIFXHIDDENBULB
+4: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 APIRequest1_4 unshare1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+	SMARTTHINGSUSER -> LIFXCLOUD -> LIFXDELEGATEDBULB
+5: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unOAuth1_1 unbind1_1 unbind2_1 unshare1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+	SMARTTHINGSUSER -> LIFXHIDDENBULB
+6: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 APIRequest1_4 unOAuth1_1 unshare1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+7: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind2_1 unbind1_1 unshare1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+	SMARTTHINGSUSER -> LIFXHIDDENBULB
+8: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unOAuth1_1 unbind1_1 unshare1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+	SMARTTHINGSUSER -> LIFXHIDDENBULB
+9: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind1_1 unOAuth1_1 unshare1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+	SMARTTHINGSUSER -> LIFXHIDDENBULB
+10: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind2_1 unOAuth1_1 unbind1_1 unshare1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+	SMARTTHINGSUSER -> LIFXHIDDENBULB
+11: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind1_1 unbind2_1 unshare1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+	SMARTTHINGSUSER -> LIFXHIDDENBULB
+12: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind1_1 unshare1_1
+	SMARTTHINGSUSER -> LIFXCLOUD -> LIFXHIDDENBULB
+13: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind2_1 unbind1_1 unOAuth1_1 unshare1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+	SMARTTHINGSUSER -> LIFXHIDDENBULB
+14: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 APIRequest1_4 unbind1_1 unOAuth1_1 unshare1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+15: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind1_1 unOAuth1_1 unbind2_1 unshare1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+	SMARTTHINGSUSER -> LIFXHIDDENBULB
+16: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unOAuth1_1 unbind2_1 unbind1_1 unshare1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+	SMARTTHINGSUSER -> LIFXHIDDENBULB
+17: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 APIRequest1_4 unOAuth1_1 unbind1_1 unshare1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+18: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind2_1 unshare1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXCLOUD -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
+19: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind2_1 unOAuth1_1 unshare1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+	SMARTTHINGSUSER -> LIFXHIDDENBULB
+20: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind1_1 unshare1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+	SMARTTHINGSUSER -> LIFXHIDDENBULB
 	SMARTTHINGSUSER -> LIFXCLOUD -> LIFXHIDDENBULB
-4: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind1_1 unOAuth1_1 unshare1_1
+21: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unOAuth1_1 unbind2_1 unshare1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-5: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind1_1 unOAuth1_1 unbind2_1 unshare1_1
+22: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unOAuth1_1 unshare1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-6: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unOAuth1_1 unbind1_1 unbind2_1 unshare1_1
-	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
-	SMARTTHINGSUSER -> LIFXHIDDENBULB
-7: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 unOAuth1_1 unshare1_1
-	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
-	SMARTTHINGSUSER -> LIFXHIDDENBULB
-8: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 unshare1_1
-	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+23: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 unshare1_1
 	SMARTTHINGSUSER -> LIFXCLOUD -> LIFXDELEGATEDBULB
-	SMARTTHINGSUSER -> LIFXHIDDENBULB
-9: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unOAuth1_1 unbind2_1 unshare1_1
+24: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind1_1 unbind2_1 unOAuth1_1 unshare1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-10: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 unbind1_1 unOAuth1_1 unshare1_1
-	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
-	SMARTTHINGSUSER -> LIFXHIDDENBULB
-11: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unOAuth1_1 unbind2_1 unbind1_1 unshare1_1
-	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
-	SMARTTHINGSUSER -> LIFXHIDDENBULB
-12: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unOAuth1_1 unbind1_1 unshare1_1
-	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
-	SMARTTHINGSUSER -> LIFXHIDDENBULB
-13: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind1_1 unbind2_1 unOAuth1_1 unshare1_1
-	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
-	SMARTTHINGSUSER -> LIFXHIDDENBULB
-14: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 unOAuth1_1 unbind1_1 unshare1_1
-	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
-	SMARTTHINGSUSER -> LIFXHIDDENBULB
-15: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind1_1 unbind2_1 unshare1_1
-	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
-	SMARTTHINGSUSER -> LIFXHIDDENBULB
-16: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind1_1 unshare1_1
-	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
-	SMARTTHINGSUSER -> LIFXHIDDENBULB
-	SMARTTHINGSUSER -> LIFXCLOUD -> LIFXHIDDENBULB
 VOLFlagunbind1
-1: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 unOAuth1_1 unshare1_1 unbind1_1
+1: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unOAuth1_1 unbind2_1 unbind1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-2: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unOAuth1_1 unshare1_1 unbind1_1
+2: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 APIRequest1_4 unOAuth1_1 unshare1_1 unbind1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+3: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 APIRequest1_4 unOAuth1_1 unbind1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+4: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unOAuth1_1 unbind1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-3: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unshare1_1 unOAuth1_1 unbind2_1 unbind1_1
+5: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unOAuth1_1 unshare1_1 unbind2_1 unbind1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-4: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 unbind1_1
-	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
-	SMARTTHINGSUSER -> LIFXHIDDENBULB
-5: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unOAuth1_1 unbind1_1
-	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
-	SMARTTHINGSUSER -> LIFXHIDDENBULB
-6: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind1_1
+6: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
 	SMARTTHINGSUSER -> LIFXCLOUD -> LIFXHIDDENBULB
 	SMARTTHINGSUSER -> SMARTTHINGSCLOUD -> LIFXCLOUD -> LIFXHIDDENBULB
-7: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unshare1_1 unOAuth1_1 unbind1_1
+7: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 APIRequest1_4 unbind1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+8: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unshare1_1 unOAuth1_1 unbind1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-8: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unOAuth1_1 unbind2_1 unbind1_1
+9: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unshare1_1 unbind1_1
+	SMARTTHINGSUSER -> LIFXCLOUD -> LIFXHIDDENBULB
+10: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind2_1 unshare1_1 unOAuth1_1 unbind1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-9: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unOAuth1_1 unshare1_1 unbind2_1 unbind1_1
+11: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unOAuth1_1 unshare1_1 unbind1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-10: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unshare1_1 unbind1_1
+12: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unshare1_1 unOAuth1_1 unbind2_1 unbind1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+	SMARTTHINGSUSER -> LIFXHIDDENBULB
+13: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 APIRequest1_4 unshare1_1 unOAuth1_1 unbind1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+14: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unOAuth1_1 unbind2_1 unshare1_1 unbind1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+	SMARTTHINGSUSER -> LIFXHIDDENBULB
+15: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind2_1 unOAuth1_1 unshare1_1 unbind1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+	SMARTTHINGSUSER -> LIFXHIDDENBULB
+16: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind2_1 unshare1_1 unbind1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+	SMARTTHINGSUSER -> LIFXHIDDENBULB
+17: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind2_1 unOAuth1_1 unbind1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+	SMARTTHINGSUSER -> LIFXHIDDENBULB
+18: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unshare1_1 unbind2_1 unOAuth1_1 unbind1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+	SMARTTHINGSUSER -> LIFXHIDDENBULB
+19: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind1_1
+	SMARTTHINGSUSER -> LIFXCLOUD -> LIFXHIDDENBULB
+	SMARTTHINGSUSER -> SMARTTHINGSCLOUD -> LIFXCLOUD -> LIFXHIDDENBULB
+20: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unshare1_1 unbind2_1 unbind1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+	SMARTTHINGSUSER -> LIFXHIDDENBULB
+21: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 APIRequest1_4 unshare1_1 unbind1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+22: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind2_1 unbind1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+	SMARTTHINGSUSER -> LIFXHIDDENBULB
+23: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unshare1_1 unbind1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
 	SMARTTHINGSUSER -> LIFXCLOUD -> LIFXHIDDENBULB
-11: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unshare1_1 unbind2_1 unbind1_1
-	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
-	SMARTTHINGSUSER -> LIFXHIDDENBULB
-12: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unOAuth1_1 unbind2_1 unshare1_1 unbind1_1
-	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
-	SMARTTHINGSUSER -> LIFXHIDDENBULB
-13: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 unOAuth1_1 unbind1_1
-	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
-	SMARTTHINGSUSER -> LIFXHIDDENBULB
-14: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unshare1_1 unbind2_1 unOAuth1_1 unbind1_1
-	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
-	SMARTTHINGSUSER -> LIFXHIDDENBULB
-15: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 unshare1_1 unbind1_1
-	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
-	SMARTTHINGSUSER -> LIFXHIDDENBULB
-16: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 unshare1_1 unOAuth1_1 unbind1_1
-	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
-	SMARTTHINGSUSER -> LIFXHIDDENBULB
 VOLFlagunOAuth1
-1: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind1_1 unshare1_1 unbind2_1 unOAuth1_1
+1: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unshare1_1 unOAuth1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-2: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 unOAuth1_1
+2: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unshare1_1 unbind2_1 unbind1_1 unOAuth1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-3: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 unshare1_1 unbind1_1 unOAuth1_1
+3: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unshare1_1 unbind2_1 unOAuth1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-4: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unOAuth1_1
+4: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind2_1 unbind1_1 unOAuth1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-5: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 unbind1_1 unOAuth1_1
+5: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unOAuth1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-6: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind1_1 unbind2_1 unshare1_1 unOAuth1_1
+6: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind1_1 unshare1_1 unOAuth1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-7: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 unshare1_1 unOAuth1_1
+7: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 APIRequest1_4 unOAuth1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+8: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 APIRequest1_4 unbind1_1 unOAuth1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+9: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind1_1 unshare1_1 unbind2_1 unOAuth1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-8: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 unbind1_1 unshare1_1 unOAuth1_1
+10: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 APIRequest1_4 unshare1_1 unOAuth1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+11: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind1_1 unbind2_1 unOAuth1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-9: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unshare1_1 unOAuth1_1
+12: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 APIRequest1_4 unshare1_1 unbind1_1 unOAuth1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+13: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind2_1 unshare1_1 unOAuth1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-10: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind1_1 unbind2_1 unOAuth1_1
+14: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind1_1 unbind2_1 unshare1_1 unOAuth1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-11: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unshare1_1 unbind1_1 unOAuth1_1
+15: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind2_1 unOAuth1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-12: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unshare1_1 unbind2_1 unOAuth1_1
+16: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1 APIRequest1_4 unbind1_1 unshare1_1 unOAuth1_1
+	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
+17: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind1_1 unOAuth1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-13: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind1_1 unOAuth1_1
+18: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unshare1_1 unbind1_1 unOAuth1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-14: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unshare1_1 unbind2_1 unbind1_1 unOAuth1_1
+19: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind2_1 unbind1_1 unshare1_1 unOAuth1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-15: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind1_1 unshare1_1 unOAuth1_1
+20: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unshare1_1 unbind1_1 unbind2_1 unOAuth1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-16: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unshare1_1 unbind1_1 unbind2_1 unOAuth1_1
+21: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind2_1 unshare1_1 unbind1_1 unOAuth1_1
 	SMARTTHINGSUSER -> LIFXDELEGATEDBULB
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
 VOLFlagunbind2
-1: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unOAuth1_1 unbind2_1
+1: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind2_1
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-2: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind1_1 unbind2_1
+2: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unOAuth1_1 unbind1_1 unshare1_1 unbind2_1
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-3: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind2_1
+3: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unOAuth1_1 unbind1_1 unbind2_1
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-4: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind1_1 unshare1_1 unbind2_1
+4: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unshare1_1 unbind2_1
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-5: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unOAuth1_1 unbind1_1 unbind2_1
+5: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unshare1_1 unbind1_1 unOAuth1_1 unbind2_1
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-6: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unshare1_1 unOAuth1_1 unbind1_1 unbind2_1
+6: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind1_1 unOAuth1_1 unbind2_1
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-7: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unOAuth1_1 unbind1_1 unshare1_1 unbind2_1
+7: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unOAuth1_1 unshare1_1 unbind2_1
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-8: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unOAuth1_1 unshare1_1 unbind2_1
+8: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind1_1 unshare1_1 unOAuth1_1 unbind2_1
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-9: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind1_1 unOAuth1_1 unbind2_1
+9: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind1_1 unbind2_1
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-10: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unshare1_1 unbind1_1 unbind2_1
+10: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unshare1_1 unOAuth1_1 unbind2_1
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-11: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unshare1_1 unOAuth1_1 unbind2_1
+11: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind1_1 unshare1_1 unbind2_1
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-12: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind1_1 unOAuth1_1 unshare1_1 unbind2_1
+12: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unshare1_1 unbind1_1 unbind2_1
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-13: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unshare1_1 unbind2_1
+13: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unshare1_1 unOAuth1_1 unbind1_1 unbind2_1
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-14: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unOAuth1_1 unshare1_1 unbind1_1 unbind2_1
+14: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unbind1_1 unOAuth1_1 unshare1_1 unbind2_1
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-15: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unbind1_1 unshare1_1 unOAuth1_1 unbind2_1
+15: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unOAuth1_1 unshare1_1 unbind1_1 unbind2_1
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
-16: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 unshare1_1 unbind1_1 unOAuth1_1 unbind2_1
+16: bind1_1 bind2_1 OAuth1_1 share1_1 share1_2 APIRequest1_4 unOAuth1_1 unbind2_1
 	SMARTTHINGSUSER -> LIFXHIDDENBULB
