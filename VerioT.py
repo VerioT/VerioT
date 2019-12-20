@@ -9,6 +9,33 @@ def getAssertionNameFromLine(line, assertions):
             return item
     return ""
 
+def calReachPaths(indexAttacker, adjMatrix, indexDevices, lenght):
+    rstPaths = []
+    
+    if indexAttacker == indexDevices:
+        rstPaths.append([indexAttacker])
+        #print "\n device"
+        #print rstPaths
+        return rstPaths
+        
+    for i in range(lenght):
+        if adjMatrix[indexAttacker][i] == 1:
+            rslt = []
+            rslt = calReachPaths(i, adjMatrix, indexDevices, lenght)
+            #print rslt
+            for item in rslt:
+                if item == []:
+                    continue
+                rstPaths.append([indexAttacker] + item)
+                #print "\ntype"
+                #print type(item)
+                #print item
+    #print "\n later"
+    #print rstPaths
+    if rstPaths == []:
+        rstPaths.append([])
+    return rstPaths
+    
 # Spin's default number is 9999
 # if max depth reached error, increase it
 depth = "9999" 
@@ -41,10 +68,18 @@ MAXCREDENTIALNUM = 2 * MAXENITYNUM
 
 modelFile.write("#define MAXENITYNUM " + str(MAXENITYNUM) + "\n")
 
+entityIndexList = {}
+indexEntityList = {}
+entityIndex = 0
+
 for i in range(0, MAXENITYNUM):
     entityName = configFile.readline().split()[0]
     EntityList.append(entityName)
     EntityIDList.append("ID" + entityName)
+    
+    entityIndexList[entityName] = entityIndex
+    indexEntityList[entityIndex] = entityName
+    entityIndex = entityIndex + 1
 
 for i in range(0, MAXENITYNUM):
     modelFile.write("#define " + EntityList[i] + " " + str(i) + "\n")
@@ -266,14 +301,16 @@ for i in range(0, assertionNum):
 sorted(assertionList.keys())
 
 """
+print "assertionList"
 print assertionList
 """
+
 assertions = []
 counterexamplePaths = {}
 
 for key in assertionList:
     assertions.append("VOLFlag" + assertionList[key][0])
-    counterexamplePaths["VOLFlag" + assertionList[key][0]] = []
+    counterexamplePaths["VOLFlag" + assertionList[key][0]] = {}
     modelFile.write("\ninline assertion" + assertionList[key][0] + "() {\n")
     modelFile.write("    atomic {\n")
     modelFile.write("        bool VOLFlag" + assertionList[key][0] + " = false;\n")
@@ -443,7 +480,7 @@ print "Compiled!"
 # verify (to generate counterexamples)
 print "\nGenerating counterexample trails ..."
 resultFileName = "_0result.txt"
-os.system("./pan -m" + depth + "-E -c0 -e -n > " + resultFileName)
+os.system("./pan -m" + depth + "-E -c1 -e -n > " + resultFileName)
 print "Trails done!"
 
 print "\nGenerating readable counterexamples ..."
@@ -479,33 +516,70 @@ for readableFileName in range(1,errorNumber):
     #print str(readableFileName) + '.txt'
     
     operationExecuted = ""
-    
     for line in readableFile:
         #print line
+        
+        if "text of failed assertion" in line:
+            assertionName = getAssertionNameFromLine(line, assertions)
+            continue
+        
         if "trail ends" in line:
+            counterexamplePaths[assertionName][operationExecuted] = []
             break
         
         operation = line.split()[0]
         #print operation
         
-        if operation not in actions:
-            assertionName = getAssertionNameFromLine(line, assertions)
-            #print assertionName
-            
-            if assertionName not in assertions:
-                continue
-            else:
-                if operationExecuted not in counterexamplePaths[assertionName]:
-                    counterexamplePaths[assertionName].append(operationExecuted)
-                    #print numberbbbb
-                    #numberbbbb = numberbbbb + 1
-                    continue
-                else:
-                    #print "already in " + str(inNumber)
-                    inNumber = inNumber + 1
-        else:
+        if operation in actions:
             operationExecuted = operationExecuted + " " + operation
         
+    adjMatrixItems = []
+    adjMatrix = [[0 for i in range(MAXENITYNUM)] for j in range(MAXENITYNUM)]
+    for line in readableFile:
+        #print line
+        
+        if "adjacencyMatrix" not in line:
+            continue
+        else:
+            adjMatrixItems.append(int(line.split()[2]))
+            if len(adjMatrixItems) == MAXENITYNUM * MAXENITYNUM:
+                break
+                
+    adjItemIndex = 0
+    for order1Index in range(MAXENITYNUM):
+        for order2Index in range(MAXENITYNUM):
+            adjMatrix[order1Index][order2Index] = adjMatrixItems[adjItemIndex]
+            if order1Index == order2Index:
+                adjMatrix[order1Index][order2Index] = 0
+            adjItemIndex = adjItemIndex + 1
+        
+
+    for key in assertionList:
+        if assertionList[key][0] == assertionName[7:]:
+            potentialAttackers = assertionList[key][1]
+            protectedDevices = assertionList[key][2]
+            break
+    
+    for attacker in potentialAttackers:
+        for device in protectedDevices:
+            #print adjMatrix
+            #print entityIndexList[attacker]
+            #print entityIndexList[device]
+            
+            #print "++++++++++++++++++"
+            pathsList = calReachPaths(entityIndexList[attacker], adjMatrix, entityIndexList[device], MAXENITYNUM)
+            
+            for pathItem in pathsList:
+                if pathItem == []:
+                    continue
+                strPathItem = "\t"
+                for item in pathItem:
+                    if strPathItem == "\t":
+                        strPathItem = strPathItem + indexEntityList[item]
+                    else:
+                        strPathItem = strPathItem + " -> " + indexEntityList[item]
+                counterexamplePaths[assertionName][operationExecuted].append(strPathItem)
+    
     
     readableFile.close()
 
@@ -514,13 +588,16 @@ ReportFileName = "_0report.txt"
 reportFile = file(ReportFileName, "w+")
 
 for key in counterexamplePaths:
-    counterexamplePaths[key].sort()
     reportFile.write(key + "\n")
     number = 1
     
-    for item in counterexamplePaths[key]:
+    for itemKey in counterexamplePaths[key]:
         reportFile.write(str(number) + ":")
-        reportFile.write(item + "\n")
+        reportFile.write(itemKey + "\n")
+        
+        for item in counterexamplePaths[key][itemKey]:
+            reportFile.write(item + "\n")
+            
         number = number + 1
     
     if number == 1:
