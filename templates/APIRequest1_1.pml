@@ -1,7 +1,7 @@
-        // add everything in LIFXCLOUD RCL to SMARTTHINGSUSER RCL
+        // add everything in DELEGATORCLOUD RCL to DELEGATEEUSER RCL
         printf("APIRequest1_1 ");
-        printf("SMARTTHINGSUSER LIFXCLOUD\n");
-        addRCLstoRCLs(LIFXCLOUD, SMARTTHINGSUSER);
+        printf("DELEGATEEUSER DELEGATORCLOUD\n");
+        addRCLstoRCLs(DELEGATORCLOUD, DELEGATEEUSER);
         
         ACVAPIRequest1 = 1;
 
