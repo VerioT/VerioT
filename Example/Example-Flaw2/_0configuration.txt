@@ -1,43 +1,44 @@
 actors 5
-AugustLock
-SmartThingsSwitch
-IFTTTCloud
-SmartThingsCloud
-SmartThingsUser
+device 2
+AUGUSTLOCK
+SMARTTHINGSSWITCH
+IFTTTCLOUD
+SMARTTHINGSCLOUD
+SMARTTHINGSUSER
 
-delegation operations 8 
-bind1 AugustLock IFTTTCloud 1
-unbind1 AugustLock IFTTTCloud 1
-bind2 SmartThingsSwitch SmartThingsCloud 1
-unbind2 SmartThingsSwitch SmartThingsCloud 1
-setTrigger1 IFTTTCloud SmartThingsCloud 1
-unsetTrigger1 IFTTTCloud SmartThingsCloud 1
-share1 SmartThingsCloud SmartThingsUser 1
-unshare1 SmartThingsCloud SmartThingsUser 1
-other operations 1 
-APIRequest1 SmartThingsUser SmartThingsCloud 2
+
+delegation operations 9 
+bind1 2 AUGUSTLOCK IFTTTCLOUD 
+unbind1 2 AUGUSTLOCK 
+bind2 1 SMARTTHINGSSWITCH SMARTTHINGSCLOUD 
+unbind2 2 SMARTTHINGSSWITCH 
+setTrigger1 1 IFTTTCLOUD SMARTTHINGSCLOUD AUGUSTLOCK
+unsetTrigger1 1 IFTTTCLOUD 
+share1 2 SMARTTHINGSCLOUD SMARTTHINGSUSER SMARTTHINGSSWITCH
+unshare1 1 SMARTTHINGSCLOUD SMARTTHINGSUSER SMARTTHINGSSWITCH
+APIRequest1 1 SMARTTHINGSUSER SMARTTHINGSCLOUD 
 
 assertions 4 
 unbind1
-SmartThingsUser
-AugustLock
+SMARTTHINGSUSER
+AUGUSTLOCK
 unbind2
-SmartThingsUser
-SmartThingsSwitch
+SMARTTHINGSUSER
+SMARTTHINGSSWITCH
 unsetTrigger1
-SmartThingsUser
-AugustLock SmartThingsSwitch
+SMARTTHINGSUSER
+AUGUSTLOCK
 unshare1
-SmartThingsUser
-AugustLock SmartThingsSwitch
+SMARTTHINGSUSER
+AUGUSTLOCK SMARTTHINGSSWITCH
 
-operation dependency 9 
+operation dependency 9 5
 bind1 NULL
 bind2 NULL
 setTrigger1 bind1 bind2
-share1 bind1 bind2 setTrigger1
+share1 bind1 bind2
+APIRequest1 bind1 bind2 setTrigger1 share1
 unbind1 bind1
 unbind2 bind2
 unsetTrigger1 setTrigger1
 unshare1 share1
-APIRequest1 bind1 bind2 setTrigger1 share1
