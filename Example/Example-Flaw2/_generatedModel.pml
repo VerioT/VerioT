@@ -1,825 +1,765 @@
-// definiation of index
 #define MAXENITYNUM 5
-#define AugustLock 0
-#define SmartThingsSwitch 1
-#define IFTTTCloud 2
-#define SmartThingsCloud 3
-#define SmartThingsUser 4
+#define MAXTOKENNUM 10
+#define DEVICENUM 2
 
-// definiation of ID
-#define IDAugustLock 1
-#define IDSmartThingsSwitch 2
-#define IDIFTTTCloud 3
-#define IDSmartThingsCloud 4
-#define IDSmartThingsUser 5
-
-#define MAXCREDENTIALNUM 10
+#define AUGUSTLOCK 0
+#define SMARTTHINGSSWITCH 1
+#define IFTTTCLOUD 2
+#define SMARTTHINGSCLOUD 3
+#define SMARTTHINGSUSER 4
 
 
-// define the data structures to store the credentials
-typedef credentialArray1{
-        short credentialArray[MAXCREDENTIALNUM];
-        short index = 0;
-        }
+#define MAXPATHNUM 20
 
-typedef credentialArray2{
-        short credentialArray[MAXCREDENTIALNUM];
-        short delegateeArray[MAXCREDENTIALNUM];
-        short index = 0;
-        }
+typedef accessRightList{
+    short accessRight[MAXTOKENNUM];
+    short index = 0;
+}
 
-credentialArray1 ACLs[MAXENITYNUM];
-credentialArray1 RCLs[MAXENITYNUM];
-credentialArray1 SCLs[MAXENITYNUM];
-credentialArray2 GCLs[MAXENITYNUM];
+typedef ACL{
+    short issuedToken[MAXTOKENNUM];
+    short issuedToWhom[MAXTOKENNUM];
+    accessRightList accessRightLists[MAXTOKENNUM];
+    short index = 0;
+}
 
-short newCredential = 0;
+typedef Recv{
+    short recvdToken[MAXTOKENNUM];
+    short orignalDev[MAXTOKENNUM];
+    short index = 0;
+}
 
-typedef array1{
-        bool order1[MAXENITYNUM];
-        }
-array1 adjacencyMatrix[MAXENITYNUM];
-array1 reachabilityMatrix[MAXENITYNUM];
+typedef path{
+    short node[MAXENITYNUM];
+    short length = 0;
+    bool accessPathFlag = false;
+}
 
-typedef array2{
-        short entities[MAXENITYNUM];
-        short index = 0;
-        }
-bool myOwnErrorFlag = false
-// Action Vabirables (ACV)
+ACL ACLs[MAXENITYNUM];
+Recv Recvs[MAXENITYNUM];
+path paths[MAXPATHNUM];
+bool usedNodes[MAXENITYNUM];
+short resultNodes[MAXENITYNUM];
+bool block[MAXENITYNUM];
+short medialNodes[MAXENITYNUM];
+Recv mappedTokens;
+accessRightList medialTokenset;
+
+short newToken = 0 - MAXENITYNUM;
+bool myOwnErrorFlag = false;
+accessRightList emptyRights;
+accessRightList medialRights;
+short indexmap = 0;
+short index_addArraytoArray = 0;
+bool isList1inList2Bool = false;
+bool isIteminListBool = false;
+short indexisList1inList2 = 0;
+short indexisIteminList = 0;
+short markedIteminACLs = 0;
+short numofValidIteminACLs = 0;
+short indexearseACLsStartingfromIndex = 0;
+short currentIndexforCopy = 0;
+short irrIndexdelMarkedItemsinACLs = 0;
+short irrIndexearseArray = 0;
+short indexaddItemRecv = 0;
+short staticToken = 0 - MAXENITYNUM;
+short indexaddItemACL = 0;
+short intfactorial = 1;
+short hop = MAXENITYNUM - 2;
+short permutation1 = 0;
+short permutation2 = 0;
+short intsumpermutation = 0;
+short sumpermutation1 = 0;
+short pathNum = 0;
+short indexearsePaths = 0;
+short irrNode = 0;
+short pathIndex = 0;
+short irrHop = 1;
+short indexearseTempdata = 0;
+short indexstoreThePath = 0;
+short indexMedialnodes = 0;
+short irrEntity = 0;
+short indexcalAllAccessPaths = 0;
+short irrPrintAPath = 0;
+short irrparaRecv = 0;
+short isTokeninACLFlag = false;
+short irrparaACL = 0;
+short irrPaths = 0;
+short indexunshare1 = 0;
+short indexprintPaths = 0;
+short irrPathNode = 0;
+short indexGetMappedtokens = 0;
+short indexGetMappedtokensACL = 0;
+short indexPrintMappedTokens = 0;
+short indexgetMappedtokens = 0;
+short indexsetTrigger1 = 0;
+short indexAPIRequest1 = 0;
+
 short ACVbind1 = 0;
 short ACVbind2 = 0;
 short ACVsetTrigger1 = 0;
 short ACVshare1 = 0;
 short ACVAPIRequest1 = 0;
+bool VOLFlagunbind1 = false;
+bool VOLFlagunbind2 = false;
+bool VOLFlagunsetTrigger1 = false;
+bool VOLFlagunshare1 = false;
 
-inline canApassB(A, B, passFlag){
-    atomic {
-        // can A directly pass B
-        // if intersection of union(RCL[A] and IDofA) and union(ACL[B], GCL[B], SCL[B]) is not empty, pass, passFlag = true
-        // else, can not pass, passFlag = false
-        passFlag = false;
-        
-        short indexA = 0;
-        short indexBACL = 0;
-        short indexBGCL = 0;
-        short indexBSCL = 0;
-        short IDofA = A + 1;
-        do
-            :: indexA < RCLs[A].index ->
-            
-                indexBACL = 0;
-                do
-                    :: indexBACL < ACLs[B].index ->
-                        if
-                            :: ACLs[B].credentialArray[indexBACL] == RCLs[A].credentialArray[indexA] || ACLs[B].credentialArray[indexBACL] == IDofA ->
-                                passFlag = true;
-                                goto endofcanApassB;
-                            :: else ->
-                                skip;
-                        fi;
-                        indexBACL ++;
-                    :: else -> 
-                        break;
-                od;
-                
-                indexBGCL = 0;
-                do
-                    :: indexBGCL < GCLs[B].index ->
-                        if
-                            :: GCLs[B].credentialArray[indexBGCL] == RCLs[A].credentialArray[indexA] || ACLs[B].credentialArray[indexBACL] == IDofA ->
-                                passFlag = true;
-                                goto endofcanApassB;
-                            :: else ->
-                                skip;
-                        fi;
-                        indexBGCL ++;
-                    :: else -> 
-                        break;
-                od;
-                
-                indexBSCL = 0;
-                do
-                    :: indexBSCL < SCLs[B].index ->
-                        if
-                            :: SCLs[B].credentialArray[indexBSCL] == RCLs[A].credentialArray[indexA] || ACLs[B].credentialArray[indexBACL] == IDofA ->
-                                passFlag = true;
-                                goto endofcanApassB;
-                            :: else ->
-                                skip;
-                        fi;
-                        indexBSCL ++;
-                    :: else -> 
-                        break;
-                od;
-                
-                indexA ++;
-            :: else ->
-                break;
+
+inline printaccessRightList(accessRightList2bePrint){
+    atomic{
+        short indexPrintaccessRightList = 0;
+        printf("\n[")
+        do 
+            :: indexPrintaccessRightList < accessRightList2bePrint.index ->
+                printf("%d, ", accessRightList2bePrint.accessRight[indexPrintaccessRightList]);
+                indexPrintaccessRightList ++;
+            :: else -> break;
         od;
+        printf("]\n");
+    }
+}
+
+inline printPaths(numerofPaths){
+    atomic{
+        irrPaths = 0;
+        indexprintPaths = 0;
         
-        endofcanApassB: 
+        printf("\n %d Paths to be printed\n", numerofPaths);
+        
+        do
+            :: irrPaths < numerofPaths ->
+                printf("\nlength is %d, accessable: %d\n", paths[irrPaths].length, paths[irrPaths].accessPathFlag);
+                
+                printf("[");
+                indexprintPaths = 0;
+                do 
+                    :: indexprintPaths < MAXENITYNUM ->
+                        printf("%d ", paths[irrPaths].node[indexprintPaths]);
+                        indexprintPaths ++;
+                    :: else -> break;
+                od;
+                printf("]\n");
+                
+                irrPaths ++;
+            :: else -> break;
+        od;
+    }
+}
+
+inline printACL(entity){
+    atomic{
+        short irrIndex = 0;
+        printf("\nACL: (token, toWhom, [right])\n")
+        do
+            :: irrIndex < ACLs[entity].index ->
+                printf("\n(%d, %d,", ACLs[entity].issuedToken[irrIndex],ACLs[entity].issuedToWhom[irrIndex]);
+                
+                short irrIndex2 = 0;
+                printf("[");
+                do 
+                    :: irrIndex2 < ACLs[entity].accessRightLists[irrIndex].index ->
+                        printf("%d,", ACLs[entity].accessRightLists[irrIndex].accessRight[irrIndex2]);
+                        irrIndex2 ++;
+                    :: else -> break;
+                od;
+                printf("])\n");
+                
+                irrIndex ++;
+            :: else -> break;
+        od;
+    }
+}
+
+inline printRecv(entity){
+    atomic{
+        short indexPrintRecv = 0;
+        printf("\nRecv: (token, device)\n");
+        do
+            :: indexPrintRecv < Recvs[entity].index ->
+                printf("(%d,%d)\n", Recvs[entity].recvdToken[indexPrintRecv],Recvs[entity].orignalDev[indexPrintRecv])
+                indexPrintRecv ++;
+            :: else -> break;
+        od;
+    }
+}
+
+inline isIteminList(item, list){
+    atomic{
+        indexisIteminList = 0;
+        do
+            :: indexisIteminList < list.index ->
+                if 
+                    :: item == list.accessRight[indexisIteminList] ->
+                        isIteminListBool = true;
+                        goto endOfisIteminList;
+                    :: else -> skip;
+                fi;
+                indexisIteminList ++;
+            :: else -> break;
+        od;
+        isIteminListBool = false;
+        
+        endOfisIteminList:
             skip;
     }
 }
 
-inline setLineinadjacencyMatrix(whoisA){
-    atomic {
-        // can A directly pass B
-        short whoisB = 0;
+inline isList1inList2(list1, list2){
+    atomic{
+        indexisList1inList2 = 0;
         do
-            :: whoisB < MAXENITYNUM ->
-                if  
-                    :: whoisB == whoisA ->
-                        adjacencyMatrix[whoisA].order1[whoisB] = true;
-                    :: else ->
-                        canApassB(whoisA, whoisB, adjacencyMatrix[whoisA].order1[whoisB]);
-                fi;
-                whoisB ++;
-            :: else -> 
-                break;
-        od;
-    }
-}
-
-inline calAdjacencyMatrix(){
-    atomic {
-        // erase the adjacencyMatrix
-        short indexadjMatrixOrder1 = 0;
-        short indexadjMatrixOrder2 = 0;
-        do
-            :: indexadjMatrixOrder2 < MAXENITYNUM ->
-                indexadjMatrixOrder1 = 0;
-                do
-                    :: indexadjMatrixOrder1 < MAXENITYNUM ->
-                        if 
-                            :: indexadjMatrixOrder2 == indexadjMatrixOrder1 ->
-                                adjacencyMatrix[indexadjMatrixOrder2].order1[indexadjMatrixOrder1] = true;
-                            :: else ->
-                                adjacencyMatrix[indexadjMatrixOrder2].order1[indexadjMatrixOrder1] = false;
-                        fi;
-                        indexadjMatrixOrder1 ++;
-                    :: else ->
-                        break;
-                od;
-                indexadjMatrixOrder2 ++;
-            :: else ->
-                break;
-        od;
-
-        short indexCalAdjMatrix = 0;
-            do
-                :: indexCalAdjMatrix < MAXENITYNUM ->
-                   setLineinadjacencyMatrix(indexCalAdjMatrix);
-                   indexCalAdjMatrix ++;
-                :: else ->
-                    break;
-            od;
-    }
-}
-
-inline setLineinreachabilityMatrix(RchMatrixwhoisA){
-    atomic {
-        // set Line of RchMatrixwhoisA in reachabilityMatrix
-
-        array2 canReachEntities;
-        short indexcanReachEntities = 0;
-        short indexRchMatrixwhoisA = 0;
-        
-        bool inFlag = false;
-
-        // erase the canReachEntities
-        canReachEntities.index = 0;
-        indexcanReachEntities = 0;
-        do
-            :: indexcanReachEntities < MAXENITYNUM ->
-                canReachEntities.entities[indexcanReachEntities] = -1; // can erase to 0, because DEVICE == 0
-                indexcanReachEntities ++;
-            :: else ->
-                break;
-        od;
-
-        // put RchMatrixwhoisA's conneted nodes in the set
-        indexRchMatrixwhoisA = 0;
-        do
-            :: indexRchMatrixwhoisA < MAXENITYNUM ->
+            :: indexisList1inList2 < list1.index ->
+                isIteminList(list1.accessRight[indexisList1inList2], list2);
                 if 
-                :: adjacencyMatrix[RchMatrixwhoisA].order1[indexRchMatrixwhoisA] == true ->
-                    addItemArray2(canReachEntities, indexRchMatrixwhoisA);
-                :: else ->
-                    skip;
-                fi;
-                indexRchMatrixwhoisA ++;
-            :: else ->
-                break;
-        od;
-        
-        // travel all the nodes in canReachEntities, to add other not-directly connected nodes
-        indexcanReachEntities = 0;
-        do
-            :: indexcanReachEntities < canReachEntities.index ->
-                
-                if 
-                :: canReachEntities.entities[indexcanReachEntities] != RchMatrixwhoisA ->
-                    // add the connected nodes of the connected nodes, if it not already in
-                    indexRchMatrixwhoisA = 0;
-                    do
-                        :: indexRchMatrixwhoisA < MAXENITYNUM ->
-                        if
-                            :: adjacencyMatrix[canReachEntities.entities[indexcanReachEntities]].order1[indexRchMatrixwhoisA] == true ->
-                                // is it already in canReachEntities? not in, add 
-                                isIteminArray2(indexRchMatrixwhoisA, canReachEntities, inFlag);
-                                if
-                                :: inFlag == false -> // not in, add to canReachEntities
-                                    addItemArray2(canReachEntities, indexRchMatrixwhoisA);
-                                :: else ->
-                                    skip;
-                                fi;
-                            :: else ->
-                                skip;
-                        fi;
-                        indexRchMatrixwhoisA ++;
-                        :: else ->
-                        break;
-                    od;
-                    
-                :: else ->
-                    skip;
+                    :: isIteminListBool == false ->
+                        isList1inList2Bool = false;
+                        goto endOfisList1inList2;
+                    :: else -> skip;
                 fi;
                 
-                indexcanReachEntities ++;
-            :: else ->
-                break;
+                indexisList1inList2 ++;
+            :: else -> break;
         od;
-
-        // now all reachable nodes are recorded in canReachEntities 
-        // travel the canReachEntities again, to set the reachabilityMatrix
-         indexcanReachEntities = 0;
-        do
-            :: indexcanReachEntities < canReachEntities.index ->
-                reachabilityMatrix[RchMatrixwhoisA].order1[canReachEntities.entities[indexcanReachEntities]] = true;
-                indexcanReachEntities ++;
-            :: else ->
-                break;
-        od;
+        isList1inList2Bool = true;
+        endOfisList1inList2:
+            skip;
     }
 }
 
-inline calreachabilityMatrix(){
-    atomic {
-        // erase the reachabilityMatrix
-        short indexreachMatrixOrder1 = 0;
-        short indexreachMatrixOrder2 = 0;
-        do
-            :: indexreachMatrixOrder2 < MAXENITYNUM ->
-                indexreachMatrixOrder1 = 0;
-                do
-                    :: indexreachMatrixOrder1 < MAXENITYNUM ->
-                        if 
-                            :: indexreachMatrixOrder2 == indexreachMatrixOrder1 ->
-                                reachabilityMatrix[indexreachMatrixOrder2].order1[indexreachMatrixOrder1] = true;
-                            :: else ->
-                                reachabilityMatrix[indexreachMatrixOrder2].order1[indexreachMatrixOrder1] = false;
-                        fi;
-                        indexreachMatrixOrder1 ++;
-                    :: else ->
-                        break;
-                od;
-                indexreachMatrixOrder2 ++;
-            :: else ->
-                break;
-        od;
-    
-    
-        short indexCalReachMatrix = 0;
-        calAdjacencyMatrix();
-        do
-            :: indexCalReachMatrix < MAXENITYNUM ->
-                setLineinreachabilityMatrix(indexCalReachMatrix);
-                indexCalReachMatrix ++;
-            :: else ->
-                break;
-        od;
-        
-    }
-}
-
-inline addSCLstoRCLs(fromWhoseSCL, toWhoseRCL){
-    atomic {
-        short indexaddSCLstoRCLs = 0;
-        bool isinflagaddSCLstoRCLs = false;
-        do
-            :: indexaddSCLstoRCLs < SCLs[fromWhoseSCL].index ->
-                isIteminArray(SCLs[fromWhoseSCL].credentialArray[indexaddSCLstoRCLs], RCLs[toWhoseRCL], isinflagaddSCLstoRCLs);
-                if :: isinflagaddSCLstoRCLs == false ->
-                        addItemRCL(toWhoseRCL, SCLs[fromWhoseSCL].credentialArray[indexaddSCLstoRCLs]);
-                   :: else ->
-                        skip;
-                fi;
-                indexaddSCLstoRCLs ++;
-            :: else ->
-                break;
-        od;
-    }
-}
-
-inline addGCLstoRCLs(fromWhoseGCL, toWhORCL){
-    atomic {
-        short indexaddGCLstoRCLs = 0;
-        bool isinflagaddGCLstoRCLs = false;
-        do
-            :: indexaddGCLstoRCLs < GCLs[fromWhoseGCL].index ->
-                isIteminArray(GCLs[fromWhoseGCL].credentialArray[indexaddGCLstoRCLs], RCLs[toWhORCL], isinflagaddGCLstoRCLs);
-                if :: isinflagaddGCLstoRCLs == false ->
-                        addItemRCL(toWhORCL, GCLs[fromWhoseGCL].credentialArray[indexaddGCLstoRCLs]);
-                   :: else ->
-                        skip;
-                fi;
-                indexaddGCLstoRCLs ++;
-            :: else ->
-                break;
-        od;
-    }
-}
-
-inline isIteminArray(item, isinarray, flag){
-    atomic {
-        short indexisIteminArray = 0;
-        flag = false;
-        do
-            :: indexisIteminArray < isinarray.index ->
-                if 
-                    :: isinarray.credentialArray[indexisIteminArray] == item ->
-                        flag = true;
-                        break;
-                    :: else ->
-                        indexisIteminArray ++;
-                fi;
-            :: else ->
-                break;
-        od;
-    }
-}
-
-inline isIteminArray2(item2, isinarray2, flag2){
-    atomic {
-        short indexisIteminArray = 0;
-        flag2 = false;
-        do
-            :: indexisIteminArray < isinarray2.index ->
-                if 
-                    :: isinarray2.entities[indexisIteminArray] == item2 ->
-                        flag2 = true;
-                        break;
-                    :: else ->
-                        indexisIteminArray ++;
-                fi;
-            :: else ->
-                break;
-        od;
-    }
-}
-
-inline addItemArray2(whicharray, whichItem){
-    atomic {
-        if
-            :: whicharray.index >= MAXENITYNUM ->
-                printf("Exceed MAXENITYNUM when adding item in addItemArray2 \n"); 
-            :: else ->
-                whicharray.entities[whicharray.index] = whichItem;
-                whicharray.index ++;
-        fi;
-    }
-}
-
-inline addItemACL(who, item){
-    atomic {
-        if
-            :: who >= MAXENITYNUM || who < 0 ->
-                printf("wrong parameter in addItemACL: wrong value of who: %d", who);
-                myOwnErrorFlag = true;
-            :: ACLs[who].index >= MAXCREDENTIALNUM -> 
-                printf("Exceed MAXCREDENTIALNUM when adding item in ACLs[%d] \n", who); 
-                myOwnErrorFlag = true;
-            :: else -> 
-                ACLs[who].credentialArray[ACLs[who].index] = item;
-                ACLs[who].index ++;
-        fi;
-    }
-}
-
-inline addItemRCL(who, item){
-    atomic {
-        if
-            :: who >= MAXENITYNUM || who < 0 ->
-                printf("wrong parameter in addItemRCL: wrong value of who: %d", who);
-                myOwnErrorFlag = true;
-            :: RCLs[who].index >= MAXCREDENTIALNUM -> 
-                printf("Exceed MAXCREDENTIALNUM when adding item (%d) in RCLs[%d] \n", item, who); 
-                myOwnErrorFlag = true;
-            :: else -> 
-                RCLs[who].credentialArray[RCLs[who].index] = item;
-                RCLs[who].index ++;
-        fi;
-    }
-}
-
-inline addItemSCL(who, item){
-    atomic {
-        if
-            :: who >= MAXENITYNUM || who < 0 ->
-                printf("wrong parameter in addItemSCL: wrong value of who: %d", who);
-                myOwnErrorFlag = true;
-            :: SCLs[who].index >= MAXCREDENTIALNUM -> 
-                printf("Exceed MAXCREDENTIALNUM when adding item in SCLs[%d] \n", who); 
-                myOwnErrorFlag = true;
-            :: else -> 
-                SCLs[who].credentialArray[SCLs[who].index] = item;
-                SCLs[who].index ++;
-        fi;
-    }
-}
-
-inline addItemGCL(delegator, delegatee, item){
-    atomic {
-        if
-            :: delegator >= MAXENITYNUM || delegator < 0 ->
-                printf("wrong parameter in addItemGCL: wrong value of delegator: %d", delegator);
-                myOwnErrorFlag = true;
-            :: delegatee >= MAXENITYNUM || delegatee < 0 ->
-                printf("wrong parameter in addItemGCL: wrong value of delegatee: %d", delegatee);
-                myOwnErrorFlag = true;
-            :: GCLs[delegator].index >= MAXCREDENTIALNUM -> 
-                printf("Exceed MAXCREDENTIALNUM when adding item in GCLs[%d] \n", delegator); 
-                myOwnErrorFlag = true;
-            :: else -> 
-                GCLs[delegator].credentialArray[GCLs[delegator].index] = item;
-                GCLs[delegator].delegateeArray[GCLs[delegator].index] = delegatee;
-                GCLs[delegator].index ++;
-        fi;
-    }
-}
-
-inline removeItemACL(who, item){
-    atomic {
-        short indexRmvACLSearch = 0;
-        short indexRmvACLAdd = 0;
-        short swapACL = 0;
-        
-        if 
-            :: !(who >= MAXENITYNUM || who < 0 || item > MAXENITYNUM || item < 0) ->
-                do
-                    :: indexRmvACLSearch < ACLs[who].index ->
-                        swapACL = ACLs[who].credentialArray[indexRmvACLSearch];
-                        ACLs[who].credentialArray[indexRmvACLSearch] = 0;
-                        if 
-                            :: swapACL != item ->
-                                ACLs[who].credentialArray[indexRmvACLAdd] = swapACL;
-                                indexRmvACLAdd ++;
-                            :: else ->
-                                skip;
-                        fi;
-                        indexRmvACLSearch ++;
-                    :: else -> 
-                        ACLs[who].index = indexRmvACLAdd;
-                        break;
-                od;
-            :: else ->
-                printf("wrong parameter in removeItemACL: who is %d, item is %d \n", who, item);
-                myOwnErrorFlag = true;
-        fi;
-    }
-}
-
-inline removeItemRCL(who, item){
-    atomic {
-        short indexRmvRCLSearch = 0;
-        short indexRmvRCLAdd = 0;
-        short swapRCL = 0;
-        
-        if 
-            :: !(who >= MAXENITYNUM || who < 0 || item > MAXENITYNUM || item < 0) ->
-                do
-                    :: indexRmvRCLSearch < RCLs[who].index ->
-                        swapRCL = RCLs[who].credentialArray[indexRmvRCLSearch];
-                        RCLs[who].credentialArray[indexRmvRCLSearch] = 0;
-                        if 
-                            :: swapRCL != item ->
-                                RCLs[who].credentialArray[indexRmvRCLAdd] = swapRCL;
-                                indexRmvRCLAdd ++;
-                            :: else ->
-                                skip;
-                        fi;
-                        indexRmvRCLSearch ++;
-                    :: else -> 
-                        RCLs[who].index = indexRmvRCLAdd;
-                        break;
-                od;
-            :: else ->
-                printf("wrong parameter in removeItemRCL: who is %d, item is %d \n", who, item);
-                myOwnErrorFlag = true;
-        fi;
-    }
-}
-
-inline removeItemGCL(delegator, delegatee){
-    atomic {
-        short indexRmvGCLSearch = 0;
-        short indexRmvGCLAdd = 0;
-        short swapGCLCredential = 0;
-        short swapGCLDelegatee = 0;
-        
-        if
-            ::  !(delegator >= MAXENITYNUM || delegator < 0 || delegatee >= MAXENITYNUM || delegatee < 0) ->
-                do
-                    :: indexRmvGCLSearch < GCLs[delegator].index ->
-                        swapGCLCredential = GCLs[delegator].credentialArray[indexRmvGCLSearch];
-                        swapGCLDelegatee = GCLs[delegator].delegateeArray[indexRmvGCLSearch];
-                        GCLs[delegator].credentialArray[indexRmvGCLSearch] = 0;
-                        GCLs[delegator].delegateeArray[indexRmvGCLSearch] = 0;
-                        if 
-                            :: swapGCLDelegatee != delegatee ->
-                                GCLs[delegator].credentialArray[indexRmvGCLAdd] = swapGCLCredential;
-                                GCLs[delegator].delegateeArray[indexRmvGCLAdd] = swapGCLDelegatee;
-                                indexRmvGCLAdd ++;
-                            :: else ->
-                                skip;
-                        fi;
-                        indexRmvGCLSearch ++;
-                    :: else ->
-                        GCLs[delegator].index = indexRmvGCLAdd;
-                        break;
-                od;
-            :: else ->
-                printf("wrong parameter in removeItemGCL: delegator is %d, delegatee is %d \n", delegator, delegatee);
-                myOwnErrorFlag = true;
-        fi;
-    }
-}
-
-inline removeAllItemsGCL(targetDelegator){
+// add array2 to array1
+inline addArraytoArray(array1, array2){
     atomic{
-        short indexsearchAllGCL = 0;
-        do
-            :: indexsearchAllGCL < GCLs[targetDelegator].index ->
-                GCLs[targetDelegator].credentialArray[indexsearchAllGCL] = 0;
-                GCLs[targetDelegator].delegateeArray[indexsearchAllGCL] = 0;
-                indexsearchAllGCL ++;
-            :: else ->
-                GCLs[targetDelegator].index = 0;
-        od;
-    }
-}
-
-inline addRCLstoRCLs(fromWhom, toWhom){
-    atomic {
-        short indexaddRCLstoRCLs = 0;
-        bool isinflagaddRCLstoRCLs = false;
-        do
-            :: indexaddRCLstoRCLs < RCLs[fromWhom].index ->
-                isIteminArray(RCLs[fromWhom].credentialArray[indexaddRCLstoRCLs], RCLs[toWhom], isinflagaddRCLstoRCLs);
-                if :: isinflagaddRCLstoRCLs == false ->
-                        addItemRCL(toWhom, RCLs[fromWhom].credentialArray[indexaddRCLstoRCLs]);
-                   :: else ->
-                        skip;
-                fi;
-                indexaddRCLstoRCLs ++;
-            :: else ->
-                break;
-        od;
-    }
-}
-
-inline bind1(){
-
-    atomic {
-        // share IDAugustLock with IFTTTCloud
-        // add IDAugustLock to AugustLock SCL and IFTTTCloud RCL
-        printf("bind1_1 ");
-        printf("AugustLock IFTTTCloud\n");
-        addItemSCL(AugustLock, IDAugustLock);
-        addItemRCL(IFTTTCloud, IDAugustLock);
         
-        ACVbind1 = 1;
-    }
-}
-
-inline unbind1(){
-
-    atomic {
-        // remove the IDAugustLock in IFTTTCloud RCL
-        printf("unbind1_1 ");
-        printf("AugustLock IFTTTCloud\n");
-        removeItemRCL(IFTTTCloud, IDAugustLock);
-        
-        ACVbind1 = 2;
-        assertionunbind1();
-    }
-}
-
-inline bind2(){
-
-    atomic {
-        // share IDSmartThingsSwitch with SmartThingsCloud
-        // add IDSmartThingsSwitch to SmartThingsSwitch SCL and SmartThingsCloud RCL
-        printf("bind2_1 ");
-        printf("SmartThingsSwitch SmartThingsCloud\n");
-        addItemSCL(SmartThingsSwitch, IDSmartThingsSwitch);
-        addItemRCL(SmartThingsCloud, IDSmartThingsSwitch);
-        
-        ACVbind2 = 1;
-    }
-}
-
-inline unbind2(){
-
-    atomic {
-        // remove the IDSmartThingsSwitch in SmartThingsCloud RCL
-        printf("unbind2_1 ");
-        printf("SmartThingsSwitch SmartThingsCloud\n");
-        removeItemRCL(SmartThingsCloud, IDSmartThingsSwitch);
-        
-        ACVbind2 = 2;
-        assertionunbind2();
-    }
-}
-
-inline setTrigger1(){
-
-    atomic {
-
-        // generate new credential 
-        // add to SmartThingsCloud RCL and  IFTTTCloud SCL 
-        printf("setTrigger1_1 ");
-        printf("IFTTTCloud SmartThingsCloud\n");
-        newCredential --;
-        addItemSCL(IFTTTCloud, newCredential);
-        addItemRCL(SmartThingsCloud, newCredential);
-        
-        setTriggerHidden_1()
-        
-        ACVsetTrigger1 = 1;
-    }
-}
-
-inline unsetTrigger1(){
-
-    atomic {
-
-        // do nothing
-        printf("unsetTrigger1_1 ");
-        printf("IFTTTCloud SmartThingsCloud\n");
-        
-        ACVsetTrigger1 = 2;
-        assertionunsetTrigger1();
-    }
-}
-
-inline share1(){
-
-    atomic {
-        // add IDSmartThingsUser to SmartThingsCloud ACL
-        printf("share1_1 ");
-        printf("SmartThingsCloud SmartThingsUser\n");
-        addItemACL(SmartThingsCloud, IDSmartThingsUser);
-        
-        ACVshare1 = 1;
-    }
-}
-
-inline unshare1(){
-
-    atomic {
-        // remove IDSmartThingsUser from SmartThingsCloud ACL
-        printf("unshare1_1 ");
-        printf("SmartThingsCloud SmartThingsUser\n");
-        removeItemACL(SmartThingsCloud, IDSmartThingsUser);
-        
-        ACVshare1 = 2;
-        assertionunshare1();
-    }
-}
-
-
-inline setTriggerHidden_1(){
-    atomic{
-        // the SmartThingsCloud gets read access to the devices in the SmartThingsUser
-        // add the IDs of devices in SmartThingsUser ( 1 or 2 in RCL) to SmartThingsCloud RCL
-        bool deviceDelegatedtoSmartThingsUserFlag = false;
-        isIteminArray(1, RCLs[SmartThingsUser], deviceDelegatedtoSmartThingsUserFlag);
         if
-            :: deviceDelegatedtoSmartThingsUserFlag == true -> addItemRCL(SmartThingsCloud, 1)
+            :: array1.index + array2.index >= MAXTOKENNUM -> 
+                printf("Exceed MAXTOKENNUM when addArraytoArray \n"); 
+                myOwnErrorFlag = true;
             :: else -> skip;
         fi;
         
-        deviceDelegatedtoSmartThingsUserFlag = false;
-        isIteminArray(2, RCLs[SmartThingsUser], deviceDelegatedtoSmartThingsUserFlag);
+        index_addArraytoArray = 0;
+        do :: index_addArraytoArray < array2.index -> 
+                isIteminList(array2.accessRight[index_addArraytoArray], array1);
+                if 
+                    :: isIteminListBool == false ->
+                        array1.accessRight[array1.index] = array2.accessRight[index_addArraytoArray];
+                        array1.index ++;
+                    :: else -> skip;
+                fi;
+                index_addArraytoArray ++;
+           :: else -> break;
+        od;
+    }
+}
+
+inline earseArray(array){
+    atomic{
+        irrIndexearseArray = 0;
+        
+        do
+            :: irrIndexearseArray < MAXTOKENNUM ->
+                array.accessRight[irrIndexearseArray] = 0;
+                irrIndexearseArray ++;
+            :: else -> break;
+        od;
+        
+        array.index = 0;
+    }
+}
+
+inline copyArraytoArray(array1, array2){
+    atomic{
+        earseArray(array1);
+        addArraytoArray(array1, array2);
+    }
+}
+
+inline addItemACL(delegator, delegatee, token, right){
+    atomic{
         if
-            :: deviceDelegatedtoSmartThingsUserFlag == true -> addItemRCL(SmartThingsCloud, 2)
+            :: delegatee < 0 || delegatee > MAXENITYNUM || delegator < 0 || delegator > MAXENITYNUM ->
+                printf("\nWrong parameter in addItemACL(%d,%d,*,[*])\n",delegator,delegatee);
+                myOwnErrorFlag = true;
+            :: ACLs[delegator].index >= MAXTOKENNUM -> 
+                printf("Exceed MAXTOKENNUM when adding token in ACLs[%d] \n", delegator); 
+                myOwnErrorFlag = true;
             :: else -> skip;
         fi;
-    }
-}
-inline APIRequest1(){
 
-    atomic {
-        // add everything in SmartThingsCloud RCL to SmartThingsUser RCL
-        printf("APIRequest1_2 ");
-        printf("SmartThingsUser SmartThingsCloud\n");
-        addRCLstoRCLs(SmartThingsCloud, SmartThingsUser);
+        indexaddItemACL = 0;
+        do
+            :: indexaddItemACL < ACLs[delegator].index ->
+                if 
+                    :: token == ACLs[delegator].issuedToken[indexaddItemACL] && delegatee == ACLs[delegator].issuedToWhom[indexaddItemACL] ->
+                        addArraytoArray(ACLs[delegator].accessRightLists[indexaddItemACL], right);
+                        goto endofaddItemACL;
+                    :: else -> skip;
+                fi;
+                indexaddItemACL ++;
+            :: else -> break;
+        od;
+
+        ACLs[delegator].issuedToken[ACLs[delegator].index] = token;
+        ACLs[delegator].issuedToWhom[ACLs[delegator].index] = delegatee;
+        addArraytoArray(ACLs[delegator].accessRightLists[ACLs[delegator].index], right);
+        ACLs[delegator].index ++;
         
-        ACVAPIRequest1 = 1;
-
+        endofaddItemACL:
+            skip;
     }
 }
 
-inline assertionunbind1() {
-    atomic {
-        bool VOLFlagunbind1 = false;
-
-        ACVbind1 == 2 ->
-        calreachabilityMatrix();
-        //printfMatrix(2); 
-                
+inline addItemRecv(delegatee, token, device){
+    atomic{
         if
-            :: reachabilityMatrix[SmartThingsUser].order1[AugustLock] == true ->
-                VOLFlagunbind1 = true;
-            :: else ->
-                skip;
+            :: delegatee < 0 || delegatee > MAXENITYNUM || device < 0 || device > MAXENITYNUM ->
+                printf("\nWrong parameter in addItemRecv(%d,%d,%d)\n", delegatee, token, device);
+                myOwnErrorFlag = true;
+            :: Recvs[delegatee].index >= MAXTOKENNUM -> 
+                    printf("Exceed MAXTOKENNUM when adding token in Recvs[%d] \n", delegatee); 
+                    myOwnErrorFlag = true;
+            :: else -> skip;
         fi;
-
-        assert(VOLFlagunbind1 == false);
+        
+        indexaddItemRecv = 0;
+        do
+            :: indexaddItemRecv < Recvs[delegatee].index ->
+                if
+                    :: token == Recvs[delegatee].recvdToken[indexaddItemRecv] && device == Recvs[delegatee].orignalDev[indexaddItemRecv] ->
+                        goto endofaddItemRecv;
+                    :: else -> skip;
+                fi;
+                indexaddItemRecv ++;
+            :: else -> break;
+        od;
+        
+        Recvs[delegatee].recvdToken[Recvs[delegatee].index] = token;
+        Recvs[delegatee].orignalDev[Recvs[delegatee].index] = device;
+        Recvs[delegatee].index ++;
+        
+        endofaddItemRecv:
+            skip;
     }
 }
 
-inline assertionunbind2() {
-    atomic {
-        bool VOLFlagunbind2 = false;
-
-        ACVbind2 == 2 ->
-        calreachabilityMatrix();
-        //printfMatrix(2); 
-                
-        if
-            :: reachabilityMatrix[SmartThingsUser].order1[SmartThingsSwitch] == true ->
-                VOLFlagunbind2 = true;
-            :: else ->
-                skip;
+inline addItemtoArray(item, accessRightList2beAdd){
+    atomic{
+        if 
+            :: accessRightList2beAdd.index >= MAXTOKENNUM ->
+                printf("\nExceed MAXTOKENNUM when adding %d addItemtoArray(%d, accessRightList2beAdd)", item, item);
+                myOwnErrorFlag = true;
+            :: else -> skip;
         fi;
-
-        assert(VOLFlagunbind2 == false);
+        
+        accessRightList2beAdd.accessRight[accessRightList2beAdd.index] = item;
+        accessRightList2beAdd.index ++;
     }
 }
 
-inline assertionunsetTrigger1() {
-    atomic {
-        bool VOLFlagunsetTrigger1 = false;
-
-        ACVsetTrigger1 == 2 ->
-        calreachabilityMatrix();
-        //printfMatrix(2); 
-                
-        if
-            :: reachabilityMatrix[SmartThingsUser].order1[AugustLock] == true ->
-                VOLFlagunsetTrigger1 = true;
-            :: else ->
-                skip;
-        fi;
-
-        if
-            :: reachabilityMatrix[SmartThingsUser].order1[SmartThingsSwitch] == true ->
-                VOLFlagunsetTrigger1 = true;
-            :: else ->
-                skip;
-        fi;
-
-        assert(VOLFlagunsetTrigger1 == false);
+inline mapDevicetoRecvTokens(delegator, device, returnedAccessRightList){
+    atomic{
+        indexmap = 0;
+        do
+            :: indexmap < Recvs[delegator].index ->
+                if 
+                    :: Recvs[delegator].orignalDev[indexmap] == device ->
+                        addItemtoArray(Recvs[delegator].recvdToken[indexmap], returnedAccessRightList);
+                    :: else -> skip;
+                fi;
+                indexmap ++;
+            :: else -> break;
+        od;
     }
 }
 
-inline assertionunshare1() {
-    atomic {
-        bool VOLFlagunshare1 = false;
+inline earseACLsStartingfromIndex(entity, paraindex){
+    // paraindex == 0 -> not item left in the ACLs
+    // paraindex == 1 -> the first one item left in the ACLs
+    // paraindex == N -> the first N items left in the ACLs
+    atomic{
+        if 
+            :: paraindex < 0 || paraindex > MAXTOKENNUM ->
+                printf("\nWrong parameter in earseACLsStartingfromIndex(%d,%d): paraindex should >= 0 and <= MAXTOKENNUM(%d) !\n", entity, paraindex, MAXTOKENNUM);
+                myOwnErrorFlag = true;
+            :: else -> skip;
+        fi;
+        
+        indexearseACLsStartingfromIndex = paraindex;
+        do
+            :: indexearseACLsStartingfromIndex < MAXTOKENNUM -> 
+                ACLs[entity].issuedToken[indexearseACLsStartingfromIndex] = 0;
+                ACLs[entity].issuedToWhom[indexearseACLsStartingfromIndex] = 0;
+                copyArraytoArray(ACLs[entity].accessRightLists[indexearseACLsStartingfromIndex], emptyRights);
+                indexearseACLsStartingfromIndex ++;
+            :: else -> break;
+        od;
+        
+        ACLs[entity].index = paraindex;
+    }
+}
 
-        ACVshare1 == 2 ->
-        calreachabilityMatrix();
-        //printfMatrix(2); 
+inline delMarkedItemsinACLs(entity, numofMarkedItem){
+    atomic{
+        numofValidIteminACLs = ACLs[entity].index - numofMarkedItem;
+        if
+            :: numofValidIteminACLs < 0 ->
+                printf("\nWrong parameter in delMarkedItemsinACLs(%d,%d): number of valid item < 0!\n", entity, numofMarkedItem);
+                myOwnErrorFlag = true;
+            :: else -> skip;
+        fi;
+        
+        currentIndexforCopy = 0;
+        irrIndexdelMarkedItemsinACLs = 0;
+        
+        do
+            :: irrIndexdelMarkedItemsinACLs < MAXTOKENNUM ->
+                if
+                    :: ACLs[entity].issuedToken[irrIndexdelMarkedItemsinACLs] != 0 ->
+                        ACLs[entity].issuedToken[currentIndexforCopy] = ACLs[entity].issuedToken[irrIndexdelMarkedItemsinACLs];
+                        ACLs[entity].issuedToWhom[currentIndexforCopy] = ACLs[entity].issuedToWhom[irrIndexdelMarkedItemsinACLs];
+                        copyArraytoArray(ACLs[entity].accessRightLists[currentIndexforCopy],ACLs[entity].accessRightLists[irrIndexdelMarkedItemsinACLs]);
+                        currentIndexforCopy ++;
+                        if 
+                            :: currentIndexforCopy >= numofValidIteminACLs -> break;
+                            :: else -> skip;
+                        fi;
+                    :: else -> skip;
+                fi;
+                irrIndexdelMarkedItemsinACLs ++;
+            :: else -> break;
+        od;
+        
+        if
+            :: currentIndexforCopy < numofValidIteminACLs ->
+                printf("Something went wrong! delMarkedItemsinACLs(%d,%d), not enough valid item found: only %d of %d found\n",entity, numofMarkedItem,currentIndexforCopy,numofValidIteminACLs);
+                myOwnErrorFlag = true;
+            :: else -> skip;
+        fi;
+        
+        earseACLsStartingfromIndex(entity, numofValidIteminACLs);
+    }
+}
+
+inline factorial(n, result){
+    atomic{
+        intfactorial = 1;
+        result = 1;
+        do
+            :: intfactorial <= n ->
+                result = result * intfactorial;
+                intfactorial ++;
+            :: else -> break;
+        od;
+    }
+}
+
+inline permutation(n,m,result){
+    atomic{
+        if
+            :: n < m ->
+                printf("Wrong parameter permutation(%d,%d,*)\n",n,m);
+                myOwnErrorFlag = true;
+            :: else -> skip;
+        fi;
+        
+        factorial(n, permutation1);
+        factorial(n-m, permutation2);
+        result = permutation1 / permutation2;
+    }
+}
+
+inline sumpermutation(n, result){
+    atomic{
+        intsumpermutation = 0;
+        result = 0;
+        do 
+            :: intsumpermutation <= n ->
+                permutation(n, intsumpermutation, sumpermutation1);
+                result = result + sumpermutation1;
+                intsumpermutation ++;
+            :: else -> break;
+        od;
+    }
+}
+
+inline earsePaths(){
+    atomic{
+        indexearsePaths = 0;
+        do
+            :: indexearsePaths < MAXPATHNUM ->
+                paths[indexearsePaths].length = 0;
+                paths[indexearsePaths].accessPathFlag = false;
                 
+                irrNode = 0;
+                do
+                    :: irrNode < MAXENITYNUM ->
+                        paths[indexearsePaths].node[irrNode] = -1;
+                        irrNode ++;
+                    :: else -> break;
+                od;
+                
+                indexearsePaths ++;
+            :: else -> break;
+        od;
+    }
+}
+
+inline earseTempdataforPaths(){
+    atomic{
+        indexearseTempdata = 0;
+        do
+            :: indexearseTempdata < MAXENITYNUM ->
+                usedNodes[indexearseTempdata] = false;
+                resultNodes[indexearseTempdata] = 0;
+                block[indexearseTempdata] = false;
+                indexearseTempdata ++;
+            :: else -> break;
+        od;
+    }
+}
+
+inline storeThePath(user, device){
+    atomic{
+        indexstoreThePath = 0;
+        paths[pathIndex].node[0] = user;
+        
+        do
+            :: indexstoreThePath < irrHop ->
+                paths[pathIndex].node[indexstoreThePath+1] = medialNodes[resultNodes[indexstoreThePath]];
+                indexstoreThePath ++;
+            :: else -> break;
+        od;
+        paths[pathIndex].node[indexstoreThePath+1] = device;
+        paths[pathIndex].length = 2 + indexstoreThePath;
+        paths[pathIndex].accessPathFlag = false;
+        pathIndex ++;
+    }
+}
+
+inline prepareMedialNodes(user, device){
+    atomic{
+        indexMedialnodes = 1;
+        
+        irrEntity = 0;
+        do
+            :: irrEntity < MAXENITYNUM ->
+                if
+                    :: irrEntity != user && irrEntity != device ->
+                        medialNodes[indexMedialnodes] = irrEntity;
+                        indexMedialnodes ++;
+                    :: else -> skip;
+                fi;
+                irrEntity ++;
+                
+            :: else -> break;
+        od;
+    }
+}
+
+inline generatePaths(user, device){
+    atomic{
+        earsePaths();
+        prepareMedialNodes(user, device);
+        
+        // user -> device 
+        pathIndex = 0;
+        paths[pathIndex].node[0] = user;
+        paths[pathIndex].node[1] = device;
+        paths[pathIndex].length = 2;
+        paths[pathIndex].accessPathFlag = false;
+        pathIndex ++;
+        
+        sumpermutation(hop, pathNum);
+        
+        irrHop = 1;
+        do
+            :: irrHop <= hop ->
+                earseTempdataforPaths();
+                run perm(0, user, device);
+                block[0] == true;
+                block[0] = false;
+                irrHop ++;
+            :: else -> break;
+        od;
+    }
+}
+
+inline isTokeninACL(paraToken, paraACL){
+    atomic{
+        isTokeninACLFlag = false;
+        irrparaACL = 0;
+        do
+            :: irrparaACL < paraACL.index ->
+                if
+                    :: paraACL.issuedToken[irrparaACL] == paraToken ->
+                        isTokeninACLFlag = true;
+                        break;
+                    :: else -> skip;
+                fi;
+                irrparaACL ++;
+            :: else -> break;
+        od;
+    }
+}
+
+inline printAPath(whichPath){
+    atomic{
+        irrPrintAPath = 0;
+        printf("\n counterpath found ");
+        do
+            :: irrPrintAPath < paths[whichPath].length ->
+                printf("%d -> ", paths[whichPath].node[irrPrintAPath]);
+                irrPrintAPath ++;
+            :: else -> break;
+        od;
+        printf("\n");
+    }
+}
+
+inline lastStepinPath(paraRecv, paraACL, whichPath, boolflag){
+    atomic{
+        irrparaRecv = 0;
+
+        do
+            :: irrparaRecv < paraRecv.index ->
+                isTokeninACL(paraRecv.recvdToken[irrparaRecv], paraACL);
+                if
+                    :: isTokeninACLFlag == true ->
+                        boolflag = true;
+                        paths[whichPath].accessPathFlag = true;
+                        printAPath(whichPath);
+                        break;
+                    :: else -> skip;
+                fi;
+                
+                irrparaRecv ++;
+            :: else -> break;
+        od;
+    }
+}
+
+inline addItemMappedTokens(paraToken){
+    atomic{
         if
-            :: reachabilityMatrix[SmartThingsUser].order1[AugustLock] == true ->
-                VOLFlagunshare1 = true;
-            :: else ->
-                skip;
+            :: mappedTokens.index >= MAXTOKENNUM ->
+                printf("\nExceed MAXTOKENNUM when addItemMappedTokens(%d)", paraToken);
+                myOwnErrorFlag = true;
+            :: else -> skip;
+        fi;
+        
+        mappedTokens.recvdToken[mappedTokens.index] = paraToken;
+        mappedTokens.index ++;
+    }
+}
+
+inline printMappedTokens(){
+    atomic{
+    indexPrintMappedTokens = 0;
+    //printf("\n MappedTokens begin\n");
+    for (indexPrintMappedTokens : 0 .. mappedTokens.index-1){
+        printf("%d ", mappedTokens.recvdToken[indexPrintMappedTokens]);
+    }
+    //printf("\n  MappedTokens end \n");
+    }
+}
+
+inline getMappedtokens(paraRecv, paraACL){
+    atomic{
+        // earse the medial Token set
+        indexGetMappedtokens = 0;
+        do
+            :: indexGetMappedtokens < MAXTOKENNUM ->
+                medialTokenset.accessRight[indexGetMappedtokens] = 0;
+                indexGetMappedtokens ++;
+            :: else -> break;
+        od;
+        medialTokenset.index = 0;
+        
+        indexGetMappedtokens = 0;
+        indexGetMappedtokensACL = 0;
+        
+        for (indexGetMappedtokens : 0 .. paraRecv.index - 1){
+            for (indexGetMappedtokensACL: 0 .. paraACL.index - 1){
+                if
+                    :: paraRecv.recvdToken[indexGetMappedtokens] == paraACL.issuedToken[indexGetMappedtokensACL] ->
+                        addArraytoArray(medialTokenset, paraACL.accessRightLists[indexGetMappedtokensACL]);
+                    :: else -> skip;
+                fi;
+            }
+        }
+        
+        // earse the Mappled Token set
+        indexGetMappedtokens = 0;
+        do
+            :: indexGetMappedtokens < MAXTOKENNUM ->
+                mappedTokens.recvdToken[indexGetMappedtokens] = 0;
+                indexGetMappedtokens ++;
+            :: else -> break;
+        od;
+        mappedTokens.index = 0;
+        
+        // copy  medialTokenset to mappedTokens 
+        
+        indexGetMappedtokens = 0;
+        do
+            :: indexGetMappedtokens < MAXTOKENNUM && medialTokenset.accessRight[indexGetMappedtokens] != 0 ->
+                addItemMappedTokens(medialTokenset.accessRight[indexGetMappedtokens]);
+                indexGetMappedtokens ++;
+            :: else -> break;
+        od;
+    }
+    
+    //printMappedTokens();
+}
+
+inline isAccessPath(whichPath, boolflag){
+    atomic{
+        // path: user -> device
+        
+        if
+            :: paths[whichPath].length == 2 ->
+                lastStepinPath(Recvs[paths[whichPath].node[0]], ACLs[paths[whichPath].node[1]], whichPath, boolflag);
+                goto endofisAccessPath;
+            :: else -> skip;
         fi;
 
-        if
-            :: reachabilityMatrix[SmartThingsUser].order1[SmartThingsSwitch] == true ->
-                VOLFlagunshare1 = true;
-            :: else ->
-                skip;
-        fi;
+        
+        // path: user -> other actors -> device
+        getMappedtokens(Recvs[paths[whichPath].node[0]], ACLs[paths[whichPath].node[1]]);
+        
+        irrPathNode = 1;
+        do
+            :: irrPathNode < paths[whichPath].length -2 ->
+                getMappedtokens(mappedTokens, ACLs[paths[whichPath].node[irrPathNode+1]]);
+                irrPathNode ++;
+            :: else -> break;
+        od;
+        
+        lastStepinPath(mappedTokens, ACLs[paths[whichPath].node[paths[whichPath].length-1]], whichPath, boolflag);
 
-        assert(VOLFlagunshare1 == false);
+        endofisAccessPath:
+            skip;
+    }
+}
+
+inline calAllAccessPaths(user, device, boolflag){
+    atomic{
+        //if boolflag == true print the path
+        
+        generatePaths(user, device);
+        //printPaths(pathNum+1);
+        
+        boolflag = false;
+        indexcalAllAccessPaths = 0;
+        do
+            :: indexcalAllAccessPaths < pathNum ->
+                isAccessPath(indexcalAllAccessPaths, boolflag);
+                indexcalAllAccessPaths ++;
+            :: else -> break;
+        od;
+        
+        assert(boolflag == false);
     }
 }
 
@@ -827,40 +767,288 @@ init {
     run IoTDelegation();
 }
 
+proctype perm(short step, user, device){
+    atomic{
+        // printf("perm(%d)\n",step);
+        
+        short index = 0;
+        
+        if
+            :: irrHop < 1 || irrHop > hop ->
+                printf("Wrong parameter in perm(***), irrHop(%d) should be 1 <= irrHop <= hop(%d) \n", irrHop, hop);
+                myOwnErrorFlag = true;
+            :: else -> skip;
+        fi;
+        
+        if
+            :: step == irrHop ->
+                storeThePath(user, device);
+                block[step] = true;
+            :: else -> 
+                index = 0;
+                do
+                    :: index < hop ->
+                        if 
+                            :: usedNodes[index] == false ->
+                                // printf("\n-%d-\n",index);
+                                usedNodes[index] = true;
+                                resultNodes[step] = index + 1;
+                                run perm(step + 1,user, device);
+                                block[step+1] == true;
+                                block[step+1] = false;
+                                // printf("\n+%d+\n",index);
+                                usedNodes[index] = false;
+                            :: else -> skip;
+                        fi;
+                        index ++;
+                    :: else ->
+                        block[step] = true;
+                        break;
+                od;
+        fi;
+    }
+}
+
+
+inline bind1(delegator, delegatee){
+    atomic{
+        newToken --;
+        addItemACL(delegator, delegatee, newToken, emptyRights);
+        addItemRecv(delegatee, newToken, delegator);
+    }
+}
+
+inline unbind1(delegator){
+    atomic{
+        earseACLsStartingfromIndex(delegator,0);
+    }
+}
+
+inline bind2(delegator, delegatee){
+    atomic{
+        staticToken = delegator - MAXENITYNUM;
+        addItemACL(delegator, delegatee, staticToken, emptyRights);
+        addItemRecv(delegatee, staticToken, delegator);
+    }
+}
+
+inline unbind2(delegator){
+    atomic{
+        earseACLsStartingfromIndex(delegator,0);
+    }
+}
+
+inline setTrigger1(delegator, delegatee, device){
+    atomic{
+        indexsetTrigger1 = 0;
+        do
+            :: indexsetTrigger1 < Recvs[delegatee].index ->
+                if
+                    :: Recvs[delegatee].orignalDev[indexsetTrigger1] < DEVICENUM -> 
+                        addItemRecv(delegator, Recvs[delegatee].recvdToken[indexsetTrigger1], Recvs[delegatee].orignalDev[indexsetTrigger1]);
+                    :: else -> skip;
+                fi;
+                indexsetTrigger1 ++;
+            :: else -> break;
+        od;
+        
+        earseArray(medialRights);
+        mapDevicetoRecvTokens(delegator, device, medialRights);
+        
+        if 
+            :: medialRights.index == 0 ->
+                printf("\nWrong parameter in setTrigger1(%d,%d,%d): No mapped recvdToken found!\n", delegator, delegatee, device);
+                myOwnErrorFlag = true;
+            :: else -> skip;
+        fi;
+        
+        newToken --;
+        addItemACL(delegator, delegatee, newToken, medialRights);
+        addItemRecv(delegatee, newToken, device);
+    }
+}
+
+inline unsetTrigger1(delegator){
+    atomic{
+        skip;
+    }
+}
+
+inline share1(delegator, delegatee, device){
+    atomic{
+        earseArray(medialRights);
+        mapDevicetoRecvTokens(delegator, device, medialRights);
+        
+        if 
+            :: medialRights.index == 0 ->
+                printf("\nWrong parameter in share2(%d,%d,%d): No mapped recvdToken found!\n", delegator, delegatee, device);
+                myOwnErrorFlag = true;
+            :: else -> skip;
+        fi;
+        
+        newToken --;
+        addItemACL(delegator, delegatee, newToken, medialRights);
+        addItemRecv(delegatee, newToken, device);
+        
+        short indexshare2_1 = 0;
+        do
+            :: indexshare2_1 < Recvs[delegator].index ->
+                addItemRecv(delegatee, Recvs[delegator].recvdToken[indexshare2_1], Recvs[delegator].orignalDev[indexshare2_1]);
+                indexshare2_1 ++;
+            :: else -> break;
+        od;
+    }
+}
+
+inline unshare1(delegator, delegatee, device){
+    atomic{
+        earseArray(medialRights);
+        mapDevicetoRecvTokens(delegator, device, medialRights);
+        
+        indexunshare1 = 0;
+        markedIteminACLs = 0;
+        do 
+            :: indexunshare1 < ACLs[delegator].index ->
+                if 
+                    :: delegatee == ACLs[delegator].issuedToWhom[indexunshare1] ->
+                        isList1inList2(ACLs[delegator].accessRightLists[indexunshare1], medialRights);
+                        if
+                            :: isList1inList2Bool == true ->
+                                ACLs[delegator].issuedToken[indexunshare1] = 0;
+                                markedIteminACLs ++;
+                            :: else -> skip;
+                        fi;
+                    :: else -> skip;
+                fi;
+                
+                indexunshare1 ++;
+            :: else -> break;
+        od;
+        delMarkedItemsinACLs(delegator, markedIteminACLs);
+    }
+}
+
+inline APIRequest1(Reqfrom, Reqto){
+    atomic{
+        indexAPIRequest1 = 0;
+        do
+            :: indexAPIRequest1 < Recvs[Reqto].index ->
+                addItemRecv(Reqfrom, Recvs[Reqto].recvdToken[indexAPIRequest1], Recvs[Reqto].orignalDev[indexAPIRequest1]);
+                indexAPIRequest1 ++;
+            :: else -> break;
+        od;
+    }
+}
+
+
+inline assertionunbind1(){
+    atomic{
+        VOLFlagunbind1 = false;
+        calAllAccessPaths(SMARTTHINGSUSER, AUGUSTLOCK, VOLFlagunbind1);
+    }
+}
+
+inline assertionunbind2(){
+    atomic{
+        VOLFlagunbind2 = false;
+        calAllAccessPaths(SMARTTHINGSUSER, SMARTTHINGSSWITCH, VOLFlagunbind2);
+    }
+}
+
+inline assertionunsetTrigger1(){
+    atomic{
+        VOLFlagunsetTrigger1 = false;
+        calAllAccessPaths(SMARTTHINGSUSER, AUGUSTLOCK, VOLFlagunsetTrigger1);
+    }
+}
+
+inline assertionunshare1(){
+    atomic{
+        VOLFlagunshare1 = false;
+        calAllAccessPaths(SMARTTHINGSUSER, AUGUSTLOCK, VOLFlagunshare1);
+        calAllAccessPaths(SMARTTHINGSUSER, SMARTTHINGSSWITCH, VOLFlagunshare1);
+    }
+}
+
 proctype IoTDelegation(){
-    atomic {
+    atomic{
         printf("start delegation \n");
 
-        if
-            :: ACVbind1 == 0 -> bind1();
-            :: else -> skip;
-        fi;
+        do
+            :: ACVbind1 == 0 ->
+                atomic{
+                    printf("bind1 AUGUSTLOCK IFTTTCLOUD \n");
+                    bind1(AUGUSTLOCK, IFTTTCLOUD);
+                    ACVbind1 = 1;
+                }
 
-        if
-            :: ACVbind2 == 0 -> bind2();
-            :: else -> skip;
-        fi;
+            :: ACVbind2 == 0 ->
+                atomic{
+                    printf("bind2 SMARTTHINGSSWITCH SMARTTHINGSCLOUD \n");
+                    bind2(SMARTTHINGSSWITCH, SMARTTHINGSCLOUD);
+                    ACVbind2 = 1;
+                }
 
-        if
-            :: ACVsetTrigger1 == 0 && ACVbind1 == 1 && ACVbind2 == 1 -> setTrigger1();
-            :: else -> skip;
-        fi;
+            :: ACVsetTrigger1 == 0 && ACVbind1 == 1 && ACVbind2 == 1 ->
+                atomic{
+                    printf("setTrigger1 IFTTTCLOUD SMARTTHINGSCLOUD AUGUSTLOCK \n");
+                    setTrigger1(IFTTTCLOUD, SMARTTHINGSCLOUD, AUGUSTLOCK);
+                    ACVsetTrigger1 = 1;
+                }
 
-        if
-            :: ACVshare1 == 0 && ACVbind1 == 1 && ACVbind2 == 1 && ACVsetTrigger1 == 1 -> share1();
-            :: else -> skip;
-        fi;
+            :: ACVshare1 == 0 && ACVbind1 == 1 && ACVbind2 == 1 ->
+                atomic{
+                    printf("share1 SMARTTHINGSCLOUD SMARTTHINGSUSER SMARTTHINGSSWITCH \n");
+                    share1(SMARTTHINGSCLOUD, SMARTTHINGSUSER, SMARTTHINGSSWITCH);
+                    ACVshare1 = 1;
+                }
+
+            :: ACVAPIRequest1 == 0 && ACVbind1 == 1 && ACVbind2 == 1 && ACVsetTrigger1 == 1 && ACVshare1 == 1 ->
+                atomic{
+                    printf("APIRequest1 SMARTTHINGSUSER SMARTTHINGSCLOUD \n");
+                    APIRequest1(SMARTTHINGSUSER, SMARTTHINGSCLOUD);
+                    ACVAPIRequest1 = 1;
+                }
+
+            :: else -> break;
+        od;
 
         printf("delegation done \n");
-    }
+    } 
 
     do
-        :: ACVbind1 == 1 -> unbind1();
-        :: ACVbind2 == 1 -> unbind2();
-        :: ACVsetTrigger1 == 1 -> unsetTrigger1();
-        :: ACVshare1 == 1 -> unshare1();
-        :: ACVAPIRequest1 == 0 && ACVbind1 == 1 && ACVbind2 == 1 && ACVsetTrigger1 == 1 && ACVshare1 == 1 -> APIRequest1();
+        :: ACVbind1 == 1 ->
+            atomic{
+                printf("unbind1 AUGUSTLOCK \n");
+                unbind1(AUGUSTLOCK);
+                ACVbind1 = 2;
+                assertionunbind1();
+            }
+
+        :: ACVbind2 == 1 ->
+            atomic{
+                printf("unbind2 SMARTTHINGSSWITCH \n");
+                unbind2(SMARTTHINGSSWITCH);
+                ACVbind2 = 2;
+                assertionunbind2();
+            }
+
+        :: ACVsetTrigger1 == 1 ->
+            atomic{
+                printf("unsetTrigger1 IFTTTCLOUD \n");
+                unsetTrigger1(IFTTTCLOUD);
+                ACVsetTrigger1 = 2;
+                assertionunsetTrigger1();
+            }
+
+        :: ACVshare1 == 1 ->
+            atomic{
+                printf("unshare1 SMARTTHINGSCLOUD SMARTTHINGSUSER SMARTTHINGSSWITCH \n");
+                unshare1(SMARTTHINGSCLOUD, SMARTTHINGSUSER, SMARTTHINGSSWITCH);
+                ACVshare1 = 2;
+                assertionunshare1();
+            }
+
         :: else -> break;
     od;
-
 }
