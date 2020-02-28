@@ -1,40 +1,40 @@
 actors 5
-AugustLock
-SmartThingsSwitch
-SmartThingsCloud
-GoogleHomeCloud
-GoogleHomeUser
+device 2
+AUGUSTLOCK
+SMARTTHINGSSWITCH
+SMARTTHINGSCLOUD
+GOOGLEHOMECLOUD
+GOOGLEHOMEUSER
 
 delegation operations 8 
-bind1 AugustLock SmartThingsCloud 1
-unbind1 AugustLock SmartThingsCloud 1
-bind2 SmartThingsSwitch SmartThingsCloud 1
-unbind2 SmartThingsSwitch SmartThingsCloud 1
-OAuth1 SmartThingsCloud GoogleHomeCloud 1 2
-unOAuth1 SmartThingsCloud GoogleHomeCloud 1
-share1 GoogleHomeCloud GoogleHomeUser 1 2
-unshare1 GoogleHomeCloud GoogleHomeUser 1
-other operations 0 
+bind1 1 AUGUSTLOCK SMARTTHINGSCLOUD 
+unbind1 2 AUGUSTLOCK
+bind2 1 SMARTTHINGSSWITCH SMARTTHINGSCLOUD 
+unbind2 2 SMARTTHINGSSWITCH
+OAuth1 2 SMARTTHINGSCLOUD GOOGLEHOMECLOUD SMARTTHINGSSWITCH
+unOAuth1 1 SMARTTHINGSCLOUD GOOGLEHOMECLOUD SMARTTHINGSSWITCH
+share1 3 GOOGLEHOMECLOUD GOOGLEHOMEUSER SMARTTHINGSSWITCH
+unshare1 1 GOOGLEHOMECLOUD GOOGLEHOMEUSER SMARTTHINGSSWITCH
 
 assertions 4 
 unbind1
-GoogleHomeUser
-AugustLock
+GOOGLEHOMEUSER
+AUGUSTLOCK
 unbind2
-GoogleHomeUser
-SmartThingsSwitch
+GOOGLEHOMEUSER
+AUGUSTLOCK SMARTTHINGSSWITCH
 unOAuth1
-GoogleHomeUser
-AugustLock SmartThingsSwitch
+GOOGLEHOMEUSER
+AUGUSTLOCK SMARTTHINGSSWITCH
 unshare1
-GoogleHomeUser
-AugustLock SmartThingsSwitch
+GOOGLEHOMEUSER
+AUGUSTLOCK SMARTTHINGSSWITCH
 
-operation dependency 8 
+operation dependency 8 4
 bind1 NULL
 bind2 NULL
-OAuth1 bind1
-share1 bind1 OAuth1
+OAuth1 bind2
+share1 bind2 OAuth1
 unbind1 bind1
 unbind2 bind2
 unOAuth1 OAuth1
