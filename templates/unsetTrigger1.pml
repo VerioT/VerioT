@@ -1,0 +1,5 @@
+(delegator){
+    atomic{
+        skip;
+    }
+}
