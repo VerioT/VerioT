@@ -9,36 +9,8 @@ def getAssertionNameFromLine(line, assertions):
             return item
     return ""
 
-def calReachPaths(indexAttacker, adjMatrix, indexDevices, lenght):
-    rstPaths = []
-    
-    if indexAttacker == indexDevices:
-        rstPaths.append([indexAttacker])
-        #print "\n device"
-        #print rstPaths
-        return rstPaths
-        
-    for i in range(lenght):
-        if adjMatrix[indexAttacker][i] == 1:
-            rslt = []
-            rslt = calReachPaths(i, adjMatrix, indexDevices, lenght)
-            #print rslt
-            for item in rslt:
-                if item == []:
-                    continue
-                rstPaths.append([indexAttacker] + item)
-                #print "\ntype"
-                #print type(item)
-                #print item
-    #print "\n later"
-    #print rstPaths
-    if rstPaths == []:
-        rstPaths.append([])
-    return rstPaths
-    
-# Spin's default number is 9999
-# if max depth reached error, increase it
-depth = "9999" 
+
+depth = "20000" 
 
 
 ###################################################################
@@ -55,228 +27,121 @@ modelFile = open(modelFileName,"a")
 configFileName = "_0configuration.txt"
 configFile = open(configFileName,"r")
 
-MAXCREDENTIALNUM = 0
+MAXTOKENNUM = 0
 MAXENITYNUM = 0
-EntityList = []
-EntityIDList = []
-
-modelFile.write("// definiation of index\n")
-
 configLine = configFile.readline()
 MAXENITYNUM = int(configLine.split()[1])
-MAXCREDENTIALNUM = 2 * MAXENITYNUM
-
+MAXTOKENNUM = 2 * MAXENITYNUM
 modelFile.write("#define MAXENITYNUM " + str(MAXENITYNUM) + "\n")
+modelFile.write("#define MAXTOKENNUM " + str(MAXTOKENNUM) + "\n")
 
+DEVICENUM = 0
+configLine = configFile.readline()
+DEVICENUM = int(configLine.split()[1])
+modelFile.write("#define DEVICENUM " + str(DEVICENUM) + "\n")
+
+# names of entities e.g., [PHILIPSBULB PHILIPSCLOUD ...]
+EntityList = []  
+
+# map entity name to entity index e.g., {("PHILIPSBULB": 0), ("PHILIPSCLOUD":1)...}
 entityIndexList = {}
+# map entity index to entity name e.g., {("->": "->"), ("0": "PHILIPSBULB"), ("1": "PHILIPSCLOUD")...}
 indexEntityList = {}
+indexEntityList["->"] = "->"
+
 entityIndex = 0
 
 for i in range(0, MAXENITYNUM):
     entityName = configFile.readline().split()[0]
     EntityList.append(entityName)
-    EntityIDList.append("ID" + entityName)
     
     entityIndexList[entityName] = entityIndex
-    indexEntityList[entityIndex] = entityName
+    indexEntityList[str(entityIndex)] = entityName
     entityIndex = entityIndex + 1
+modelFile.write("\n")
 
 for i in range(0, MAXENITYNUM):
     modelFile.write("#define " + EntityList[i] + " " + str(i) + "\n")
-
-modelFile.write("\n")
-modelFile.write("// definiation of ID\n")
-for i in range(0, MAXENITYNUM):
-    modelFile.write("#define " + EntityIDList[i] + " " + str(i+1) + "\n")
-
-modelFile.write("\n")
-modelFile.write("#define MAXCREDENTIALNUM " + str(MAXCREDENTIALNUM) + "\n")
-
 modelFile.write("\n")
 
-modelFile.write("\n\
-// define the data structures to store the credentials\n\
-typedef credentialArray1{\n\
-        short credentialArray[MAXCREDENTIALNUM];\n\
-        short index = 0;\n\
-        }\n\
-\n\
-typedef credentialArray2{\n\
-        short credentialArray[MAXCREDENTIALNUM];\n\
-        short delegateeArray[MAXCREDENTIALNUM];\n\
-        short index = 0;\n\
-        }\n\
-\n\
-credentialArray1 ACLs[MAXENITYNUM];\n\
-credentialArray1 RCLs[MAXENITYNUM];\n\
-credentialArray1 SCLs[MAXENITYNUM];\n\
-credentialArray2 GCLs[MAXENITYNUM];\n\
-\n\
-short newCredential = 0;\n\
-\n\
-typedef array1{\n\
-        bool order1[MAXENITYNUM];\n\
-        }\n\
-array1 adjacencyMatrix[MAXENITYNUM];\n\
-array1 reachabilityMatrix[MAXENITYNUM];\n\
-\n\
-typedef array2{\n\
-        short entities[MAXENITYNUM];\n\
-        short index = 0;\n\
-        }\n\
-bool myOwnErrorFlag = false\n\
-// Action Vabirables (ACV)\n\
-")
+BaseModelBlock1File = open("./BaseModel/BaseModelBlock1.pml", "r")
+for line in BaseModelBlock1File:
+    modelFile.write(line)
+BaseModelBlock1File.close()
+modelFile.write("\n")
 
 configLine = configFile.readline()
-configLine = configFile.readline()
+while "delegation operations" not in configLine:
+    configLine = configFile.readline()
 
 deleOperationNum = int(configLine.split()[2])
-if not (deleOperationNum % 2 == 0):
-    print "wrong configuration: deleOperationNum must be an even number"
-    exit()
 
+modelCodesB = ""
+modelCodesC = "\n"
+
+# list records the operations 
+# ["bind1", "unbind1", ....]
+actions = []
+
+# map records the operations
+# key :  value 
+#        operation   template index     entity parameters
+#  1  : [  bind1        2              PHILIPSBULB PHILIPSCLOUD]
 deleOperationList = {}
-
 keydeleOperation = 1
 
-setTriggerHiddenList = []
+# map records the parameters of each operation
+# key   :  value 
+# bind1 : [PHILIPSHUEBULB, PHILIPSHUECLOUD]
+parametersofOperations = {}
 
 for i in range(0, deleOperationNum):
     configLine = configFile.readline().split()
+    actions.append(configLine[0])
     # odd number are delegation operations
     # even number are undelegation operations
     deleOperationList[keydeleOperation] = []
-    deleOperationList[keydeleOperation].append(configLine[0])
-    deleOperationList[keydeleOperation].append(configLine[1])
-    deleOperationList[keydeleOperation].append(configLine[2])
-    templateIndexes = []
-    for item in configLine[3:]:
-        templateIndexes.append(item)
-    deleOperationList[keydeleOperation].append(templateIndexes)
-    
-    if configLine[0][:10] == "setTrigger":
-        for item in configLine[3:]:
-            setTriggerHiddenList.append("./templates/setTriggerHidden_" + item + ".pml")
-    
+    for item in configLine:
+        deleOperationList[keydeleOperation].append(item)
     keydeleOperation = keydeleOperation + 1
+    
+    parametersofOperations[configLine[0]] = []
+    for item in configLine[2:]:
+        parametersofOperations[configLine[0]].append(item)
 
 sorted(deleOperationList.keys())
 
-"""
-print deleOperationList
-"""
-
-configLine = configFile.readline()
-otherOperationNum = int(configLine.split()[2])
-
-otherOperationList = {}
-keyotherOperation = 1
-for i in range(0, otherOperationNum):
-    configLine = configFile.readline().split()
-    otherOperationList[keyotherOperation] = []
-    otherOperationList[keyotherOperation].append(configLine[0])
-    otherOperationList[keyotherOperation].append(configLine[1])
-    otherOperationList[keyotherOperation].append(configLine[2])
-    templateIndexes = []
-    for item in configLine[3:]:
-        templateIndexes.append(item)
-    otherOperationList[keyotherOperation].append(templateIndexes)
-    keyotherOperation = keyotherOperation + 1
-    
-sorted(otherOperationList.keys())
-
-"""
-print otherOperationList
-"""
+# print deleOperationList
+# print parametersofOperations
 
 for key in deleOperationList:
     if not (key % 2 == 0):
-        modelFile.write("short ACV" + deleOperationList[key][0] + " = 0;\n")
+        modelCodesB = modelCodesB + "short ACV" + deleOperationList[key][0] + " = 0;\n"
 
-for key in otherOperationList:
-    modelFile.write("short ACV" + otherOperationList[key][0] + " = 0;\n")
-
-modelFile.write("\n")
-
-block1FileName = "./baseModel/baseModelBlock1.pml"
-block1File = open(block1FileName, "r")
-
-for line in block1File:
-    modelFile.write(line)
-
-modelFile.write("\n")
-block1File.close()
-
-modelFile.write("\n")
-
-actions = []
 
 # based on templates to create the operations, e.g., bind1, unbind2, etc.
 for key in deleOperationList:
-    modelFile.write("inline " + deleOperationList[key][0] + "(){\n")
-    modelFile.write("\n")
-    modelFile.write("    atomic {\n")
+    modelCodesC = modelCodesC + "inline " + deleOperationList[key][0]
+    operationName = deleOperationList[key][0][:len(deleOperationList[key][0])-1]
+    templateFileName = "./Templates/" + operationName + deleOperationList[key][1] + ".pml"
+    templateFile = open(templateFileName, "r")
     
-    delegatorActor = deleOperationList[key][1]
-    delegateeActor = deleOperationList[key][2]
-
+    for line in templateFile:
+        modelCodesC = modelCodesC + line
+    templateFile.close()
     
-    for indexItem in deleOperationList[key][3]:
-        actions.append(deleOperationList[key][0] + "_" + indexItem)
-        
-        templateFileName = "./templates/" + deleOperationList[key][0][:len(deleOperationList[key][0])-1] + "_" + indexItem + ".pml"
-        templateFile = open(templateFileName,"r")
-        
-        for line in templateFile:
-            line = line.replace("DELEGATOR_RP", delegatorActor)
-            line = line.replace("DELEGATEE_RP", delegateeActor)
-            if (key % 2 == 0 and "ACV" in line):
-                line = line.replace("OPERATION_RP", deleOperationList[key][0][2:])
-            else:
-                line = line.replace("OPERATION_RP", deleOperationList[key][0])
-            
-            modelFile.write(line)
-        
-    if (key % 2 == 0):
-        modelFile.write("        assertion" + deleOperationList[key][0] + "();\n")
-    modelFile.write("    }\n")
-    modelFile.write("}\n")
-    modelFile.write("\n")
-
-for item in setTriggerHiddenList:
-    setTriggerFile = open(item, "r")
-    
-    for line in setTriggerFile:
-        line = line.replace("DELEGATOR_RP", delegatorActor)
-        line = line.replace("DELEGATEE_RP", delegateeActor)
-        modelFile.write(line)
-
-for key in otherOperationList:
-    modelFile.write("inline " + otherOperationList[key][0] + "(){\n")
-    modelFile.write("\n")
-    modelFile.write("    atomic {\n")
-    
-    for indexItem in otherOperationList[key][3]:
-        actions.append(otherOperationList[key][0] + "_" + indexItem)
-        
-        templateFileName = "./templates/" + otherOperationList[key][0] + "_" + indexItem + ".pml"
-        templateFile = open(templateFileName,"r")
-        
-        for line in templateFile:
-            modelFile.write(line)
-        
-        templateFile.close()
-
-    modelFile.write("    }\n")
-    modelFile.write("}\n")
-
+    modelCodesC = modelCodesC + "\n\n"
 
 configLine = configFile.readline()
-configLine = configFile.readline()
+while "assertions" not in configLine:
+    configLine = configFile.readline()
 
 assertionNum = int(configLine.split()[1])
 
+# map to record the assetions
+# key : value
+#                    can be more than 1    can be more than 1
+#  1  : [unbind1    [PHILIPSUSER, ... ]   [PHILIPSBULB, ...]   ]
 assertionList = {}
 keyassertion = 1
 for i in range(0, assertionNum):
@@ -300,10 +165,10 @@ for i in range(0, assertionNum):
 
 sorted(assertionList.keys())
 
-"""
-print "assertionList"
-print assertionList
-"""
+
+#print "assertionList"
+#print assertionList
+
 
 assertions = []
 counterexamplePaths = {}
@@ -311,48 +176,48 @@ counterexamplePaths = {}
 for key in assertionList:
     assertions.append("VOLFlag" + assertionList[key][0])
     counterexamplePaths["VOLFlag" + assertionList[key][0]] = {}
-    modelFile.write("\ninline assertion" + assertionList[key][0] + "() {\n")
-    modelFile.write("    atomic {\n")
-    modelFile.write("        bool VOLFlag" + assertionList[key][0] + " = false;\n")
-    modelFile.write("\n")
-    modelFile.write("        ACV" + assertionList[key][0][2:] + " == 2 ->\n\
-        calreachabilityMatrix();\n\
-        //printfMatrix(2); \n\
-                \n")
     
+    modelCodesB = modelCodesB + "bool VOLFlag" + assertionList[key][0] + " = false;\n"
+    
+    modelCodesC = modelCodesC + "\ninline assertion" + assertionList[key][0] + "(){\n"
+    modelCodesC = modelCodesC + "    atomic{\n"
+    modelCodesC = modelCodesC + "        VOLFlag" + assertionList[key][0] + " = false;\n"
+
     for delegateeItem in assertionList[key][1]:
         for delegatorItem in assertionList[key][2]:
-            modelFile.write("        if\n")
-            modelFile.write("            :: reachabilityMatrix[" + delegateeItem + "].order1[" + delegatorItem + "] == true ->\n")
-            modelFile.write("                VOLFlag" + assertionList[key][0] + " = true;\n")
-            modelFile.write("            :: else ->\n")
-            modelFile.write("                skip;\n")
-            modelFile.write("        fi;\n\n");
+            modelCodesC = modelCodesC + "        calAllAccessPaths("
+            modelCodesC = modelCodesC + delegateeItem + ", "
+            modelCodesC = modelCodesC + delegatorItem + ", "
+            modelCodesC = modelCodesC + "VOLFlag" + assertionList[key][0] + ");\n"
 
-    modelFile.write("        assert(VOLFlag" + assertionList[key][0] + " == false);\n")
-    modelFile.write("    }\n")
-    modelFile.write("}\n")
-    
+    modelCodesC = modelCodesC + "    }\n"
+    modelCodesC = modelCodesC + "}\n"
+
+modelFile.write(modelCodesB)
+BaseModelBlock2File = open("./BaseModel/BaseModelBlock2.pml", "r")
+for line in BaseModelBlock2File:
+    modelFile.write(line)
+BaseModelBlock2File.close()
 modelFile.write("\n")
-modelFile.write("init {\n\
-    run IoTDelegation();\n\
-}\n\
-\n\
-proctype IoTDelegation(){\n\
-    atomic {\n\
-        printf(\"start delegation \\n\");\n\
-\n")
+
+modelFile.write(modelCodesC)
 
 configLine = configFile.readline()
-denpendencyNum = int(configFile.readline().split()[2])
-if not ( denpendencyNum == otherOperationNum + deleOperationNum):
+while "operation dependency" not in configLine:
+    configLine = configFile.readline()
+    
+denpendencyNum = int(configLine.split()[2])
+if not ( denpendencyNum == deleOperationNum):
     print "wrong configuration at operation dependency\n"
     exit()
+
+noAssertionDelegationNum = int(configLine.split()[3])
+#assertionDelegationNum = denpendencyNum - noAssertionDelegationNum
 
 dependencyList1 = {}
 keydenpendency1 = 1
 
-for i in range(0, deleOperationNum/2):
+for i in range(0, denpendencyNum):
     configLine = configFile.readline().split()
 
     dependencyList1[keydenpendency1] = []
@@ -372,91 +237,90 @@ for i in range(0, deleOperationNum/2):
 
 sorted(dependencyList1.keys())
 
-for key in dependencyList1:
+
+
+modelFile.write("\n")
+modelFile.write("proctype IoTDelegation(){\n\
+    atomic{\n\
+        printf(\"start delegation \\n\");\n\n\
+        do")
+
+#print dependencyList1
+
+for key in range(noAssertionDelegationNum):
     denpencyEquations = ""
-    denpencyEquations = denpencyEquations + "ACV" + dependencyList1[key][0] + " == 0 "
+    denpencyEquations = denpencyEquations + "ACV" + dependencyList1[key+1][0] + " == 0 "
     
-    for item in dependencyList1[key][1]:
-        denpencyEquations = denpencyEquations + "&& ACV" + item + " == 1 "
-    
-    modelFile.write("        if\n")
-    modelFile.write("            :: " + denpencyEquations + "-> " + dependencyList1[key][0] + "();\n")
-    modelFile.write("            :: else -> skip;\n\
-        fi;\n\
-\n")
-
-modelFile.write("        printf(\"delegation done \\n\");\n")
-modelFile.write("    }\n\n")
-
-dependencyList2 = {}
-keydenpendency2 = 1
-
-for i in range(0, deleOperationNum/2):
-    configLine = configFile.readline().split()
-
-    dependencyList2[keydenpendency2] = []
-    dependencyList2[keydenpendency2].append(configLine[0])
-    
-    denpendentOpeationlist = []
-    if "NULL" == configLine[1]:
-        dependencyList2[keydenpendency2].append(denpendentOpeationlist)
-        keydenpendency2 = keydenpendency2 + 1
-        continue
-        
-    for item in configLine[1:]:
-        denpendentOpeationlist.append(item)
-
-    dependencyList2[keydenpendency2].append(denpendentOpeationlist)
-    keydenpendency2 = keydenpendency2 + 1
-
-sorted(dependencyList2.keys())
-
-modelFile.write("    do\n")
-
-for key in dependencyList2:
-    denpencyEquations = "        :: "
-    for item in dependencyList2[key][1]:
-        if "ACV" not in denpencyEquations:
-            denpencyEquations = denpencyEquations + "ACV" + item + " == 1 "
+    for item in dependencyList1[key+1][1]:
+        if item[:2] == "un":
+            denpencyEquations = denpencyEquations + "&& ACV" + item[2:] + " == 2 "
         else:
             denpencyEquations = denpencyEquations + "&& ACV" + item + " == 1 "
 
-    modelFile.write(denpencyEquations + "-> " + dependencyList2[key][0] + "();\n")
+    modelFile.write("\n            :: " + denpencyEquations + "->\n")
+    modelFile.write("                atomic{\n")
+    modelFile.write("                    printf(\"" + dependencyList1[key+1][0] + " ")
     
-dependencyList3 = {}
-keydenpendency3 = 1
-
-for i in range(0, otherOperationNum):
-    configLine = configFile.readline().split()
-
-    dependencyList3[keydenpendency3] = []
-    dependencyList3[keydenpendency3].append(configLine[0])
+    for item in parametersofOperations[dependencyList1[key+1][0]]:
+        modelFile.write(item + " ")
+    modelFile.write("\\n\");\n")
     
-    denpendentOpeationlist = []
-    if "NULL" == configLine[1]:
-        dependencyList3[keydenpendency3].append(denpendentOpeationlist)
-        keydenpendency3 = keydenpendency3 + 1
-        continue
-        
-    for item in configLine[1:]:
-        denpendentOpeationlist.append(item)
-
-    dependencyList3[keydenpendency3].append(denpendentOpeationlist)
-    keydenpendency3 = keydenpendency3 + 1
-
-sorted(dependencyList3.keys())
-
-for key in dependencyList3:
-    denpencyEquations = "        :: ACV" + dependencyList3[key][0] + " == 0 "
-    for item in dependencyList3[key][1]:
-        denpencyEquations = denpencyEquations + "&& ACV" + item + " == 1 "
-        
-    modelFile.write(denpencyEquations + "-> " + dependencyList3[key][0] + "();\n")
+    modelFile.write("                    " + dependencyList1[key+1][0] + "(")
+    parameterString = ""
+    for item in parametersofOperations[dependencyList1[key+1][0]]:
+        parameterString = parameterString + item + ", "
+    parameterString = parameterString[:len(parameterString)-2]
+    modelFile.write(parameterString+ ");\n")
     
-modelFile.write("        :: else -> break;\n")
+    modelFile.write("                    ACV" + dependencyList1[key+1][0] + " = 1;\n")
+    modelFile.write("                }\n")
+    
+    
+modelFile.write("\n            :: else -> break;\n")
+modelFile.write("        od;\n")
+modelFile.write("\n        printf(\"delegation done \\n\");\n")
+modelFile.write("    } \n\n")
+modelFile.write("    do")
+
+for key in range(noAssertionDelegationNum + 1, denpendencyNum+1):
+    denpencyEquations = ""
+    if not (dependencyList1[key][0][:2] == "un"):
+        denpencyEquations = denpencyEquations + " ACV" + dependencyList1[key][0] + " == 0 &&"
+    
+    for item in dependencyList1[key][1]:
+        if item[:2] == "un":
+            denpencyEquations = denpencyEquations + "ACV" + item[2:] + " == 2 && "
+        else:
+            denpencyEquations = denpencyEquations + " ACV" + item + " == 1 && "
+
+    modelFile.write("\n        ::" + denpencyEquations[:len(denpencyEquations)-3] + "->\n")
+    modelFile.write("            atomic{\n")
+    modelFile.write("                printf(\"" + dependencyList1[key][0] + " ")
+    
+    for item in parametersofOperations[dependencyList1[key][0]]:
+        modelFile.write(item + " ")
+    modelFile.write("\\n\");\n")
+    
+    modelFile.write("                " + dependencyList1[key][0] + "(")
+    parameterString = ""
+    for item in parametersofOperations[dependencyList1[key][0]]:
+        parameterString = parameterString + item + ", "
+    parameterString = parameterString[:len(parameterString)-2]
+    modelFile.write(parameterString+ ");\n")
+    
+    if not (dependencyList1[key][0][:2] == "un"):
+        modelFile.write("                ACV" + dependencyList1[key][0] + " = 1;\n")
+    else:
+        modelFile.write("                ACV" + dependencyList1[key][0][2:] + " = 2;\n")
+    
+    modelFile.write("                assertion" + dependencyList1[key][0] + "();\n")
+    modelFile.write("            }\n")
+    
+    
+modelFile.write("\n        :: else -> break;\n")
 modelFile.write("    od;\n")
-modelFile.write("\n}\n")
-
+modelFile.write("}\n")
+    
 modelFile.close()
 configFile.close()
 print "Model generated!"
@@ -480,7 +344,7 @@ print "Compiled!"
 # verify (to generate counterexamples)
 print "\nGenerating counterexample trails ..."
 resultFileName = "_0result.txt"
-os.system("./pan -m" + depth + "-E -c1 -e -n > " + resultFileName)
+os.system("./pan -m" + depth + "-E -c0 -e -n > " + resultFileName)
 print "Trails done!"
 
 print "\nGenerating readable counterexamples ..."
@@ -509,77 +373,54 @@ print "Readable counterexamples done!"
 ###################################################################
 print "\nAnalyzing counterexamples..."
 
-inNumber = 1
 for readableFileName in range(1,errorNumber):
-#for readableFileName in range(96,100):
+#for readableFileName in range(13,14):
     readableFile = open('./counterexamples/' + str(readableFileName) + '.txt', 'r')
     #print str(readableFileName) + '.txt'
     
     operationExecuted = ""
+    attackingPath = ""
     for line in readableFile:
         #print line
         
+        if "trail ends" in line: 
+            # no further process needed, move to next counterexample
+            break
+            
         if "text of failed assertion" in line:
+            # record the current attackingPath
+            # conitue to search for next attackingPath
             assertionName = getAssertionNameFromLine(line, assertions)
+            
+            if operationExecuted in counterexamplePaths[assertionName].keys():
+                if attackingPath not in counterexamplePaths[assertionName][operationExecuted]:
+                    counterexamplePaths[assertionName][operationExecuted].append(attackingPath)
+            else:
+                counterexamplePaths[assertionName][operationExecuted] = []
+                counterexamplePaths[assertionName][operationExecuted].append(attackingPath)
+                
             continue
         
-        if "trail ends" in line:
-            counterexamplePaths[assertionName][operationExecuted] = []
-            break
+        if "counterpath found" in line:
+            # record the current attackingPath
+            # continue to read other line for further process
+            line = line.split()
+            attackingPath = ""
+            for item in line[2:len(line)-1]:
+                attackingPath = attackingPath + indexEntityList[item]
+                
+            continue
         
-        operation = line.split()[0]
+        line = line.split()
+        if len(line) == 0: 
+            #line is emplty
+            continue
+        
+        operation = line[0]
         #print operation
         
         if operation in actions:
             operationExecuted = operationExecuted + " " + operation
-        
-    adjMatrixItems = []
-    adjMatrix = [[0 for i in range(MAXENITYNUM)] for j in range(MAXENITYNUM)]
-    for line in readableFile:
-        #print line
-        
-        if "adjacencyMatrix" not in line:
-            continue
-        else:
-            adjMatrixItems.append(int(line.split()[2]))
-            if len(adjMatrixItems) == MAXENITYNUM * MAXENITYNUM:
-                break
-                
-    adjItemIndex = 0
-    for order1Index in range(MAXENITYNUM):
-        for order2Index in range(MAXENITYNUM):
-            adjMatrix[order1Index][order2Index] = adjMatrixItems[adjItemIndex]
-            if order1Index == order2Index:
-                adjMatrix[order1Index][order2Index] = 0
-            adjItemIndex = adjItemIndex + 1
-        
-
-    for key in assertionList:
-        if assertionList[key][0] == assertionName[7:]:
-            potentialAttackers = assertionList[key][1]
-            protectedDevices = assertionList[key][2]
-            break
-    
-    for attacker in potentialAttackers:
-        for device in protectedDevices:
-            #print adjMatrix
-            #print entityIndexList[attacker]
-            #print entityIndexList[device]
-            
-            #print "++++++++++++++++++"
-            pathsList = calReachPaths(entityIndexList[attacker], adjMatrix, entityIndexList[device], MAXENITYNUM)
-            
-            for pathItem in pathsList:
-                if pathItem == []:
-                    continue
-                strPathItem = "\t"
-                for item in pathItem:
-                    if strPathItem == "\t":
-                        strPathItem = strPathItem + indexEntityList[item]
-                    else:
-                        strPathItem = strPathItem + " -> " + indexEntityList[item]
-                counterexamplePaths[assertionName][operationExecuted].append(strPathItem)
-    
     
     readableFile.close()
 
@@ -602,6 +443,8 @@ for key in counterexamplePaths:
     
     if number == 1:
         reportFile.write("no flaw with " + key[7:] + "\n")
+        
+    reportFile.write("\n")
     
 reportFile.close()
 
