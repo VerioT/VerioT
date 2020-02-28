@@ -1,8 +1,10 @@
 VOLFlagunshare1
-1: bind1_2 share1_3 APIRequest1_3 unshare1_2
-	PHILIPSHUEUESER -> PHILIPSHUEBULB
-	PHILIPSHUEUESER -> PHILIPSHUECLOUD -> PHILIPSHUEBULB
-2: bind1_2 share1_3 unshare1_2
-	PHILIPSHUEUESER -> PHILIPSHUECLOUD -> PHILIPSHUEBULB
+no flaw with unshare1
+
 VOLFlagunbind1
 no flaw with unbind1
+
+VOLFlagAPIRequest1
+1: bind1 share1 unshare1 APIRequest1
+PHILIPSHUEUESER->PHILIPSHUECLOUD->PHILIPSHUEBULB
+
