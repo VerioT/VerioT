@@ -1,108 +1,66 @@
 VOLFlagunshare1
-1: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind2_1 unbind1_1 unshare1_1
-	SmartThingsUser -> SmartThingsSwitch
-2: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind2_1 unsetTrigger1_1 unshare1_1
-	SmartThingsUser -> IFTTTCloud -> AugustLock
-	SmartThingsUser -> SmartThingsSwitch
-3: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind2_1 unsetTrigger1_1 unbind1_1 unshare1_1
-	SmartThingsUser -> SmartThingsSwitch
-4: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind2_1 unshare1_1
-	SmartThingsUser -> IFTTTCloud -> AugustLock
-	SmartThingsUser -> SmartThingsSwitch
-5: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unsetTrigger1_1 unbind1_1 unshare1_1
-	SmartThingsUser -> SmartThingsSwitch
-6: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind1_1 unshare1_1
-	SmartThingsUser -> SmartThingsSwitch
-7: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind1_1 unbind2_1 unshare1_1
-	SmartThingsUser -> SmartThingsSwitch
-8: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind2_1 unbind1_1 unsetTrigger1_1 unshare1_1
-	SmartThingsUser -> SmartThingsSwitch
-9: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unsetTrigger1_1 unbind1_1 unbind2_1 unshare1_1
-	SmartThingsUser -> SmartThingsSwitch
-10: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unsetTrigger1_1 unshare1_1
-	SmartThingsUser -> IFTTTCloud -> AugustLock
-	SmartThingsUser -> SmartThingsSwitch
-11: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind1_1 unsetTrigger1_1 unshare1_1
-	SmartThingsUser -> SmartThingsSwitch
-12: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unshare1_1
-	SmartThingsUser -> IFTTTCloud -> AugustLock
-	SmartThingsUser -> SmartThingsSwitch
-13: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind1_1 unbind2_1 unsetTrigger1_1 unshare1_1
-	SmartThingsUser -> SmartThingsSwitch
+1: bind1 bind2 setTrigger1 share1 APIRequest1 unsetTrigger1 unbind1 unshare1
+SMARTTHINGSUSER->SMARTTHINGSSWITCH
+2: bind1 bind2 share1 setTrigger1 APIRequest1 unbind2 unsetTrigger1 unshare1
+SMARTTHINGSUSER->IFTTTCLOUD->AUGUSTLOCK
+3: bind1 bind2 setTrigger1 share1 APIRequest1 unsetTrigger1 unbind2 unshare1
+SMARTTHINGSUSER->IFTTTCLOUD->AUGUSTLOCK
+4: bind1 bind2 share1 setTrigger1 APIRequest1 unbind1 unsetTrigger1 unshare1
+SMARTTHINGSUSER->SMARTTHINGSSWITCH
+5: bind1 bind2 share1 setTrigger1 APIRequest1 unbind2 unshare1
+SMARTTHINGSUSER->IFTTTCLOUD->AUGUSTLOCK
+6: bind1 bind2 share1 setTrigger1 APIRequest1 unshare1
+SMARTTHINGSUSER->IFTTTCLOUD->AUGUSTLOCK
+SMARTTHINGSUSER->SMARTTHINGSSWITCH
+7: bind1 bind2 share1 setTrigger1 APIRequest1 unsetTrigger1 unbind2 unshare1
+SMARTTHINGSUSER->IFTTTCLOUD->AUGUSTLOCK
+8: bind1 bind2 setTrigger1 share1 APIRequest1 unbind1 unsetTrigger1 unshare1
+SMARTTHINGSUSER->SMARTTHINGSSWITCH
+9: bind1 bind2 setTrigger1 share1 APIRequest1 unbind2 unsetTrigger1 unshare1
+SMARTTHINGSUSER->IFTTTCLOUD->AUGUSTLOCK
+10: bind1 bind2 setTrigger1 share1 APIRequest1 unsetTrigger1 unshare1
+SMARTTHINGSUSER->IFTTTCLOUD->AUGUSTLOCK
+SMARTTHINGSUSER->SMARTTHINGSSWITCH
+11: bind1 bind2 setTrigger1 share1 APIRequest1 unbind1 unshare1
+SMARTTHINGSUSER->SMARTTHINGSSWITCH
+12: bind1 bind2 setTrigger1 share1 APIRequest1 unshare1
+SMARTTHINGSUSER->IFTTTCLOUD->AUGUSTLOCK
+SMARTTHINGSUSER->SMARTTHINGSSWITCH
+13: bind1 bind2 share1 setTrigger1 APIRequest1 unsetTrigger1 unshare1
+SMARTTHINGSUSER->IFTTTCLOUD->AUGUSTLOCK
+SMARTTHINGSUSER->SMARTTHINGSSWITCH
+14: bind1 bind2 share1 setTrigger1 APIRequest1 unbind1 unshare1
+SMARTTHINGSUSER->SMARTTHINGSSWITCH
+15: bind1 bind2 share1 setTrigger1 APIRequest1 unsetTrigger1 unbind1 unshare1
+SMARTTHINGSUSER->SMARTTHINGSSWITCH
+16: bind1 bind2 setTrigger1 share1 APIRequest1 unbind2 unshare1
+SMARTTHINGSUSER->IFTTTCLOUD->AUGUSTLOCK
+
 VOLFlagunbind1
 no flaw with unbind1
+
 VOLFlagunsetTrigger1
-1: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind2_1 unbind1_1 unshare1_1 unsetTrigger1_1
-	SmartThingsUser -> SmartThingsSwitch
-2: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unshare1_1 unbind1_1 unbind2_1 unsetTrigger1_1
-	SmartThingsUser -> SmartThingsSwitch
-3: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind1_1 unbind2_1 unsetTrigger1_1
-	SmartThingsUser -> SmartThingsSwitch
-4: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind2_1 unsetTrigger1_1
-	SmartThingsUser -> IFTTTCloud -> AugustLock
-	SmartThingsUser -> SmartThingsCloud -> IFTTTCloud -> AugustLock
-	SmartThingsUser -> SmartThingsSwitch
-5: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unshare1_1 unsetTrigger1_1
-	SmartThingsUser -> IFTTTCloud -> AugustLock
-	SmartThingsUser -> SmartThingsSwitch
-6: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unshare1_1 unbind1_1 unsetTrigger1_1
-	SmartThingsUser -> SmartThingsSwitch
-7: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind2_1 unbind1_1 unsetTrigger1_1
-	SmartThingsUser -> SmartThingsSwitch
-8: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind1_1 unshare1_1 unsetTrigger1_1
-	SmartThingsUser -> SmartThingsSwitch
-9: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind1_1 unshare1_1 unbind2_1 unsetTrigger1_1
-	SmartThingsUser -> SmartThingsSwitch
-10: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind2_1 unshare1_1 unsetTrigger1_1
-	SmartThingsUser -> IFTTTCloud -> AugustLock
-	SmartThingsUser -> SmartThingsSwitch
-11: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unshare1_1 unbind2_1 unbind1_1 unsetTrigger1_1
-	SmartThingsUser -> SmartThingsSwitch
-12: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unshare1_1 unbind2_1 unsetTrigger1_1
-	SmartThingsUser -> IFTTTCloud -> AugustLock
-	SmartThingsUser -> SmartThingsSwitch
-13: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind1_1 unsetTrigger1_1
-	SmartThingsUser -> SmartThingsSwitch
-	SmartThingsUser -> SmartThingsCloud -> SmartThingsSwitch
-14: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind1_1 unbind2_1 unshare1_1 unsetTrigger1_1
-	SmartThingsUser -> SmartThingsSwitch
-15: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unsetTrigger1_1
-	SmartThingsUser -> IFTTTCloud -> AugustLock
-	SmartThingsUser -> SmartThingsCloud -> IFTTTCloud -> AugustLock
-	SmartThingsUser -> SmartThingsSwitch
-	SmartThingsUser -> SmartThingsCloud -> SmartThingsSwitch
-16: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind2_1 unshare1_1 unbind1_1 unsetTrigger1_1
-	SmartThingsUser -> SmartThingsSwitch
+1: bind1 bind2 setTrigger1 share1 APIRequest1 unshare1 unsetTrigger1
+SMARTTHINGSUSER->IFTTTCLOUD->AUGUSTLOCK
+2: bind1 bind2 share1 setTrigger1 APIRequest1 unbind2 unsetTrigger1
+SMARTTHINGSUSER->IFTTTCLOUD->AUGUSTLOCK
+3: bind1 bind2 share1 setTrigger1 APIRequest1 unshare1 unbind2 unsetTrigger1
+SMARTTHINGSUSER->IFTTTCLOUD->AUGUSTLOCK
+4: bind1 bind2 setTrigger1 share1 APIRequest1 unbind2 unshare1 unsetTrigger1
+SMARTTHINGSUSER->IFTTTCLOUD->AUGUSTLOCK
+5: bind1 bind2 setTrigger1 share1 APIRequest1 unshare1 unbind2 unsetTrigger1
+SMARTTHINGSUSER->IFTTTCLOUD->AUGUSTLOCK
+6: bind1 bind2 share1 setTrigger1 APIRequest1 unshare1 unsetTrigger1
+SMARTTHINGSUSER->IFTTTCLOUD->AUGUSTLOCK
+7: bind1 bind2 setTrigger1 share1 APIRequest1 unsetTrigger1
+SMARTTHINGSUSER->IFTTTCLOUD->AUGUSTLOCK
+8: bind1 bind2 share1 setTrigger1 APIRequest1 unsetTrigger1
+SMARTTHINGSUSER->IFTTTCLOUD->AUGUSTLOCK
+9: bind1 bind2 share1 setTrigger1 APIRequest1 unbind2 unshare1 unsetTrigger1
+SMARTTHINGSUSER->IFTTTCLOUD->AUGUSTLOCK
+10: bind1 bind2 setTrigger1 share1 APIRequest1 unbind2 unsetTrigger1
+SMARTTHINGSUSER->IFTTTCLOUD->AUGUSTLOCK
+
 VOLFlagunbind2
-1: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unsetTrigger1_1 unshare1_1 unbind2_1
-	SmartThingsUser -> SmartThingsSwitch
-2: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unshare1_1 unbind2_1
-	SmartThingsUser -> SmartThingsSwitch
-3: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind1_1 unsetTrigger1_1 unbind2_1
-	SmartThingsUser -> SmartThingsSwitch
-4: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind1_1 unsetTrigger1_1 unshare1_1 unbind2_1
-	SmartThingsUser -> SmartThingsSwitch
-5: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unsetTrigger1_1 unshare1_1 unbind1_1 unbind2_1
-	SmartThingsUser -> SmartThingsSwitch
-6: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unsetTrigger1_1 unbind1_1 unbind2_1
-	SmartThingsUser -> SmartThingsSwitch
-7: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unshare1_1 unsetTrigger1_1 unbind2_1
-	SmartThingsUser -> SmartThingsSwitch
-8: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind1_1 unbind2_1
-	SmartThingsUser -> SmartThingsSwitch
-9: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unshare1_1 unbind1_1 unbind2_1
-	SmartThingsUser -> SmartThingsSwitch
-10: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind2_1
-	SmartThingsUser -> SmartThingsSwitch
-11: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind1_1 unshare1_1 unbind2_1
-	SmartThingsUser -> SmartThingsSwitch
-12: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unbind1_1 unshare1_1 unsetTrigger1_1 unbind2_1
-	SmartThingsUser -> SmartThingsSwitch
-13: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unshare1_1 unbind1_1 unsetTrigger1_1 unbind2_1
-	SmartThingsUser -> SmartThingsSwitch
-14: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unshare1_1 unsetTrigger1_1 unbind1_1 unbind2_1
-	SmartThingsUser -> SmartThingsSwitch
-15: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unsetTrigger1_1 unbind2_1
-	SmartThingsUser -> SmartThingsSwitch
-16: bind1_1 bind2_1 setTrigger1_1 share1_1 APIRequest1_2 unsetTrigger1_1 unbind1_1 unshare1_1 unbind2_1
-	SmartThingsUser -> SmartThingsSwitch
+no flaw with unbind2
+
