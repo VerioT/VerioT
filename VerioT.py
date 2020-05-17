@@ -9,10 +9,7 @@ def getAssertionNameFromLine(line, assertions):
             return item
     return ""
 
-
 depth = "20000" 
-
-
 ###################################################################
 ######################### Model Generator #########################
 ###################################################################
@@ -79,20 +76,12 @@ deleOperationNum = int(configLine.split()[2])
 modelCodesB = ""
 modelCodesC = "\n"
 
-# list records the operations 
-# ["bind1", "unbind1", ....]
+# list records the operations ["bind1", "unbind1", ....]
 actions = []
 
-# map records the operations
-# key :  value 
-#        operation   template index     entity parameters
-#  1  : [  bind1        2              PHILIPSBULB PHILIPSCLOUD]
 deleOperationList = {}
 keydeleOperation = 1
 
-# map records the parameters of each operation
-# key   :  value 
-# bind1 : [PHILIPSHUEBULB, PHILIPSHUECLOUD]
 parametersofOperations = {}
 
 for i in range(0, deleOperationNum):
@@ -111,13 +100,9 @@ for i in range(0, deleOperationNum):
 
 sorted(deleOperationList.keys())
 
-# print deleOperationList
-# print parametersofOperations
-
 for key in deleOperationList:
     if not (key % 2 == 0):
         modelCodesB = modelCodesB + "short ACV" + deleOperationList[key][0] + " = 0;\n"
-
 
 # based on templates to create the operations, e.g., bind1, unbind2, etc.
 for key in deleOperationList:
@@ -138,8 +123,7 @@ while "assertions" not in configLine:
 
 assertionNum = int(configLine.split()[1])
 
-# map to record the assetions
-# key : value
+# map to record the assetions  key : value
 #                    can be more than 1    can be more than 1
 #  1  : [unbind1    [PHILIPSUSER, ... ]   [PHILIPSBULB, ...]   ]
 assertionList = {}
@@ -164,11 +148,6 @@ for i in range(0, assertionNum):
     keyassertion = keyassertion + 1
 
 sorted(assertionList.keys())
-
-
-#print "assertionList"
-#print assertionList
-
 
 assertions = []
 counterexamplePaths = {}
@@ -237,10 +216,7 @@ for i in range(0, denpendencyNum):
 
 sorted(dependencyList1.keys())
 
-
-
-modelFile.write("\n")
-modelFile.write("proctype IoTDelegation(){\n\
+modelFile.write("\nproctype IoTDelegation(){\n\
     atomic{\n\
         printf(\"start delegation \\n\");\n\n\
         do")
@@ -274,8 +250,7 @@ for key in range(noAssertionDelegationNum):
     
     modelFile.write("                    ACV" + dependencyList1[key+1][0] + " = 1;\n")
     modelFile.write("                }\n")
-    
-    
+      
 modelFile.write("\n            :: else -> break;\n")
 modelFile.write("        od;\n")
 modelFile.write("\n        printf(\"delegation done \\n\");\n")
@@ -316,7 +291,6 @@ for key in range(noAssertionDelegationNum + 1, denpendencyNum+1):
     modelFile.write("                assertion" + dependencyList1[key][0] + "();\n")
     modelFile.write("            }\n")
     
-    
 modelFile.write("\n        :: else -> break;\n")
 modelFile.write("    od;\n")
 modelFile.write("}\n")
@@ -324,7 +298,6 @@ modelFile.write("}\n")
 modelFile.close()
 configFile.close()
 print "Model generated!"
-
 
 ###################################################################
 ################### Model Checker #################################
